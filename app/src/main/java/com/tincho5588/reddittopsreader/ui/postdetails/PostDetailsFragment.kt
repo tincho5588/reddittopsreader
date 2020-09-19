@@ -65,7 +65,7 @@ class PostDetailsFragment : Fragment(R.layout.post_details_fragment) {
 
         Glide.with(view.context)
             .load(post.url)
-            .error(R.drawable.ic_no_picture_black)
+            .error(R.drawable.ic_image_not_supported_black)
             .into(preview_image)
 
         registerForContextMenu(preview_image)
