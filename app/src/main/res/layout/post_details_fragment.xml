@@ -83,7 +83,6 @@
                 android:layout_width="@dimen/preview_image_size"
                 android:layout_height="0dp"
                 android:layout_marginBottom="@dimen/margin_small"
-                android:src="@drawable/reddit_logo"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

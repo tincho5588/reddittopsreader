@@ -16,7 +16,6 @@
             android:layout_width="@dimen/preview_image_thumbnail_size"
             android:layout_height="@dimen/preview_image_thumbnail_size"
             android:layout_margin="@dimen/margin_xsmall"
-            android:src="@drawable/reddit_logo"
             app:layout_constraintBottom_toTopOf="@id/comments_number"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

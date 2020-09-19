@@ -85,7 +85,7 @@ class TopsListAdapter(var posts: List<Post>, val itemClickedCallback: (post: Pos
 
         Glide.with(holder.preview.context)
             .load(posts[position].thumbnail)
-            .error(R.drawable.reddit_logo)
+            .error(R.drawable.ic_no_picture_black)
             .into(holder.preview)
 
         holder.cardView.setOnClickListener {
