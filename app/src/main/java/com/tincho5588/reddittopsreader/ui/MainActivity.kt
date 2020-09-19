@@ -1,8 +1,6 @@
 package com.tincho5588.reddittopsreader.ui
 
-import android.content.res.Configuration
 import android.os.Bundle
-import android.view.Menu
 import androidx.fragment.app.FragmentActivity
 import com.tincho5588.reddittopsreader.R
 import com.tincho5588.reddittopsreader.data.model.Post
@@ -35,7 +33,7 @@ class MainActivity : FragmentActivity(R.layout.activity_main), PostClickedListen
 
     override fun onSaveInstanceState(outState: Bundle) {
         val detailsFragment = supportFragmentManager.findFragmentByTag(POST_DETAILS_FRAGMENT_TAG) as PostDetailsFragment?
-        if (detailsFragment != null) {
+        detailsFragment?.let {
             outState.putParcelable(POST_ARG_KEY, detailsFragment.post)
         }
         super.onSaveInstanceState(outState)
@@ -47,8 +45,8 @@ class MainActivity : FragmentActivity(R.layout.activity_main), PostClickedListen
 
     private fun displayPostDetailsFragment(post: Post) {
         var container = tops_list_fragment_container.id
-        if (post_details_fragment_container != null) {
-            container = post_details_fragment_container.id
+        post_details_fragment_container?.let { landscapeContainer ->
+            container = landscapeContainer.id
         }
 
         supportFragmentManager.popBackStackImmediate()

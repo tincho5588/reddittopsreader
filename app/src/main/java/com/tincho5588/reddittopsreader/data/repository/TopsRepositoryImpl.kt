@@ -7,6 +7,7 @@ import com.tincho5588.reddittopsreader.data.model.Post
 import com.tincho5588.reddittopsreader.data.model.TopsList
 import com.tincho5588.reddittopsreader.data.retrofit.service.TopsService
 import com.tincho5588.reddittopsreader.data.room.dao.PostDao
+import com.tincho5588.reddittopsreader.util.Constants.POSTS_TO_SHOW
 import com.tincho5588.reddittopsreader.util.Utils.isNetworkAvailable
 import com.tincho5588.reddittopsreader.util.Utils.showNetworkUnavailableToast
 import kotlinx.coroutines.Dispatchers
@@ -32,7 +33,7 @@ class TopsRepositoryImpl(
             return
         }
 
-        val call = topsService.getTops(50)
+        val call = topsService.getTops(POSTS_TO_SHOW)
         call.enqueue(object : Callback<TopsList> {
             override fun onFailure(call: Call<TopsList>, t: Throwable) {
                 Log.d(TopsRepositoryImpl::class.simpleName, "Failed to retrieve posts from Reddit")
@@ -44,14 +45,14 @@ class TopsRepositoryImpl(
                 GlobalScope.launch(Dispatchers.IO) {
                     val retrievedPosts = ArrayList<Post>()
                     val dismissedAndSeenPost: List<Post> = postDao.loadSeenPosts()
-                    topsList.data.children.forEach {
+                    topsList.data.children.forEach { fetchedPost ->
                         for (dismissedAndSeen in dismissedAndSeenPost) {
-                            if (dismissedAndSeen.id == it.data.id) {
-                                it.data.seen = dismissedAndSeen.seen
+                            if (dismissedAndSeen.id == fetchedPost.data.id) {
+                                fetchedPost.data.seen = dismissedAndSeen.seen
                                 break
                             }
                         }
-                        retrievedPosts.add(it.data)
+                        retrievedPosts.add(fetchedPost.data)
                     }
                     postDao.insert(retrievedPosts)
                 }

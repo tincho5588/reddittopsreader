@@ -27,8 +27,8 @@ class TopPostsViewModel @ViewModelInject constructor(
     }
 
     fun dismissAll() {
-        posts.value?.forEach {
-            topsRepository.dismiss(it)
+        posts.value?.forEach { post ->
+            topsRepository.dismiss(post)
         }
     }
 }

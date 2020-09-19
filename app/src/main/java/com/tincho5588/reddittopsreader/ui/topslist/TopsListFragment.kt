@@ -84,9 +84,9 @@ class TopsListFragment : Fragment(R.layout.tops_list_fragment) {
 
     private fun setupAdapter() {
         // RecyclerView Adapter setup
-        viewAdapter = TopsListAdapter(viewModel.posts.value ?: emptyList()) {
-            viewModel.markAsSeen(it)
-            postClickedListener.onPostItemClicked(it)
+        viewAdapter = TopsListAdapter(viewModel.posts.value ?: emptyList()) { post ->
+            viewModel.markAsSeen(post)
+            postClickedListener.onPostItemClicked(post)
         }
     }
 
@@ -103,17 +103,17 @@ class TopsListFragment : Fragment(R.layout.tops_list_fragment) {
         }
 
         // Swipe to dismiss gesture
-        val swipeToDeleteCallback = SwipeToDeleteCallback(requireContext()) {
-            viewModel.dismiss(viewAdapter.getItem(it))
+        val swipeToDeleteCallback = SwipeToDeleteCallback(requireContext()) { position ->
+            viewModel.dismiss(viewAdapter.getItem(position))
         }
         val itemTouchHelper = ItemTouchHelper(swipeToDeleteCallback)
         itemTouchHelper.attachToRecyclerView(tops_list_recycler_view)
     }
 
     private fun startObservingData() {
-        viewModel.posts.observe(viewLifecycleOwner) {
+        viewModel.posts.observe(viewLifecycleOwner) { newList ->
             swipe_to_refresh_layout.isRefreshing = false
-            viewAdapter.updateDataset(it)
+            viewAdapter.updateDataset(newList)
         }
 
         // Swipe to refresh gesture

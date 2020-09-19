@@ -6,13 +6,14 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy.REPLACE
 import androidx.room.Query
 import com.tincho5588.reddittopsreader.data.model.Post
+import com.tincho5588.reddittopsreader.util.Constants.POSTS_TO_SHOW
 
 @Dao
 interface PostDao {
     @Insert(onConflict = REPLACE)
     fun insert(posts: List<Post>)
 
-    @Query("SELECT * FROM Post WHERE NOT dismissed ORDER BY ups DESC LIMIT 50 ")
+    @Query("SELECT * FROM Post WHERE NOT dismissed ORDER BY ups DESC LIMIT $POSTS_TO_SHOW")
     fun load(): LiveData<List<Post>>
 
     @Query("SELECT * FROM Post WHERE seen ORDER BY ups DESC")

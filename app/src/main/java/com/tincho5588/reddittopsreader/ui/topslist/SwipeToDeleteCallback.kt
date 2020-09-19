@@ -2,8 +2,6 @@ package com.tincho5588.reddittopsreader.ui.topslist
 
 import android.content.Context
 import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.view.View
 import androidx.core.content.ContextCompat
@@ -14,7 +12,7 @@ import com.tincho5588.reddittopsreader.R
 class SwipeToDeleteCallback(
     val context: Context,
     val callback: (adapterPosition: Int) -> Unit
-): ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+) : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
 
     private val icon: Drawable = ContextCompat.getDrawable(context, R.drawable.ic_delete_black)!!
 

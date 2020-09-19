@@ -41,7 +41,11 @@ class PostDetailsFragment : Fragment(R.layout.post_details_fragment) {
 
         post = arguments?.getParcelable(POST_ARG_KEY)!!
 
-        if (savedInstanceState == null) Toast.makeText(requireContext(), R.string.download_image_hint, Toast.LENGTH_SHORT).show()
+        if (savedInstanceState == null) Toast.makeText(
+            requireContext(),
+            R.string.download_image_hint,
+            Toast.LENGTH_SHORT
+        ).show()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -118,32 +122,33 @@ class PostDetailsFragment : Fragment(R.layout.post_details_fragment) {
     }
 
     private fun requestImageDownload() {
-        if (isValidExtension()) {
-            downloadPictureToStorage(
-                requireContext(),
-                post.id,
-                preview_image.drawToBitmap()
-            ) { success ->
-                if (success) {
-                    Toast.makeText(
-                        requireContext(),
-                        getString(R.string.download_successful_message),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                } else {
-                    Toast.makeText(
-                        requireContext(),
-                        getString(R.string.storage_failure_message),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-            }
-        } else {
+        if (!isValidExtension()) {
             Toast.makeText(
                 requireContext(),
                 R.string.invalid_picture_format_message,
                 Toast.LENGTH_SHORT
             ).show()
+            return
+        }
+
+        downloadPictureToStorage(
+            requireContext(),
+            post.id,
+            preview_image.drawToBitmap()
+        ) { success ->
+            if (success) {
+                Toast.makeText(
+                    requireContext(),
+                    getString(R.string.download_successful_message),
+                    Toast.LENGTH_SHORT
+                ).show()
+            } else {
+                Toast.makeText(
+                    requireContext(),
+                    getString(R.string.storage_failure_message),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         }
     }
 
