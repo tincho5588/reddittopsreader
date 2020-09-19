@@ -42,7 +42,7 @@ class TopsListFragment : Fragment(R.layout.tops_list_fragment) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
 
-        Toast.makeText(requireContext(), R.string.dismiss_hint, Toast.LENGTH_SHORT).show()
+        if (savedInstanceState == null) Toast.makeText(requireContext(), R.string.dismiss_hint, Toast.LENGTH_SHORT).show()
     }
 
     override fun onAttach(context: Context) {
