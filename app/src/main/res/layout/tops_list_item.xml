@@ -94,7 +94,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             tools:text="1000 comments"
-            app:drawableStartCompat="@drawable/ic_comment_black" />
+            android:drawableStart="@drawable/ic_comment_black" />
 
         <TextView
             android:id="@+id/upvotes_number"
@@ -105,7 +105,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/comments_number"
             tools:text="10000 upvotes"
-            app:drawableStartCompat="@drawable/ic_arrow_upward_black" />
+            android:drawableStart="@drawable/ic_arrow_upward_black" />
 
         <ImageView
             android:id="@+id/seen_icon"
