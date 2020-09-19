@@ -3,6 +3,7 @@ package com.tincho5588.reddittopsreader.login.provider
 import android.content.Context
 import android.os.StrictMode
 import android.os.SystemClock
+import android.util.Log
 import androidx.preference.PreferenceManager
 import com.tincho5588.reddittopsreader.login.model.AccessToken
 import com.tincho5588.reddittopsreader.login.retrofit.service.AccessTokenService
@@ -58,6 +59,8 @@ class AccessTokenProviderImpl(
             realToken = accessTokenResponse
             realToken.retrieveTime = SystemClock.elapsedRealtime()
             return
+        } else {
+            Log.d(AccessTokenProviderImpl::class.simpleName, "Failed to retrieve posts from Reddit")
         }
     }
 }

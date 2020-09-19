@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mikepenz.itemanimators.SlideRightAlphaAnimator
 import com.tincho5588.reddittopsreader.R
+import com.tincho5588.reddittopsreader.util.Utils.isNetworkAvailable
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.tops_list_fragment.*
 
@@ -114,6 +115,7 @@ class TopsListFragment : Fragment(R.layout.tops_list_fragment) {
         // Swipe to refresh gesture
         swipe_to_refresh_layout.setOnRefreshListener {
             viewModel.refreshPosts()
+            if (!isNetworkAvailable(requireContext())) swipe_to_refresh_layout.isRefreshing = false
         }
     }
 }

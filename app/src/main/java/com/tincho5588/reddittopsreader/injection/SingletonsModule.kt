@@ -3,10 +3,10 @@ package com.tincho5588.reddittopsreader.injection
 import android.content.Context
 import androidx.room.Room
 import com.google.gson.GsonBuilder
-import com.tincho5588.reddittopsreader.data.room.dao.PostDao
 import com.tincho5588.reddittopsreader.data.repository.TopsRepository
 import com.tincho5588.reddittopsreader.data.repository.TopsRepositoryImpl
 import com.tincho5588.reddittopsreader.data.retrofit.service.TopsService
+import com.tincho5588.reddittopsreader.data.room.dao.PostDao
 import com.tincho5588.reddittopsreader.data.room.database.PostsDatabase
 import com.tincho5588.reddittopsreader.login.provider.AccessTokenProvider
 import com.tincho5588.reddittopsreader.login.provider.AccessTokenProviderImpl
@@ -40,8 +40,8 @@ object SingletonsModule {
 
     @Provides
     @Singleton
-    fun provideTopsRepository(topsService: TopsService, postDao: PostDao): TopsRepository {
-        return TopsRepositoryImpl(topsService, postDao)
+    fun provideTopsRepository(@ApplicationContext context: Context, topsService: TopsService, postDao: PostDao): TopsRepository {
+        return TopsRepositoryImpl(context, topsService, postDao)
     }
 
     @Provides

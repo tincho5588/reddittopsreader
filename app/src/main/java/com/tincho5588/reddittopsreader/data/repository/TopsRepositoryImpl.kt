@@ -1,10 +1,14 @@
 package com.tincho5588.reddittopsreader.data.repository
 
+import android.content.Context
+import android.util.Log
 import androidx.lifecycle.LiveData
 import com.tincho5588.reddittopsreader.data.model.Post
-import com.tincho5588.reddittopsreader.data.room.dao.PostDao
 import com.tincho5588.reddittopsreader.data.model.TopsList
 import com.tincho5588.reddittopsreader.data.retrofit.service.TopsService
+import com.tincho5588.reddittopsreader.data.room.dao.PostDao
+import com.tincho5588.reddittopsreader.util.Utils.isNetworkAvailable
+import com.tincho5588.reddittopsreader.util.Utils.showNetworkUnavailableToast
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -13,6 +17,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class TopsRepositoryImpl(
+    private val context: Context,
     private val topsService: TopsService,
     private val postDao: PostDao
 ) : TopsRepository {
@@ -22,10 +27,15 @@ class TopsRepositoryImpl(
     }
 
     override fun refreshPosts() {
+        if (!isNetworkAvailable(context)) {
+            showNetworkUnavailableToast(context)
+            return
+        }
+
         val call = topsService.getTops(50)
         call.enqueue(object : Callback<TopsList> {
             override fun onFailure(call: Call<TopsList>, t: Throwable) {
-                TODO("Not yet implemented")
+                Log.d(TopsRepositoryImpl::class.simpleName, "Failed to retrieve posts from Reddit")
             }
 
             override fun onResponse(call: Call<TopsList>, response: Response<TopsList>) {
