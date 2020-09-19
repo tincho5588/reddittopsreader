@@ -5,6 +5,7 @@
     <string name="about">About</string>
     <string name="comments_count">%s comments</string>
     <string name="upvotes_count">%s upvotes</string>
-    <string name="created_hours_ago">%s hrs</string>
+    <string name="created_hours_ago">%s hrs ago</string>
     <string name="separator_bullet"> ● </string>
+    <string name="comments_coming_soon">Comments Coming Soon!</string>
 </resources>

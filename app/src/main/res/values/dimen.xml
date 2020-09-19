@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="preview_image_size">128dp</dimen>
+    <dimen name="preview_image_thumbnail_size">128dp</dimen>
     <dimen name="seen_icon_size">24dp</dimen>
     <dimen name="margin_xsmall">4dp</dimen>
     <dimen name="margin_small">6dp</dimen>
     <dimen name="text_size_xsmall">12sp</dimen>
+    <dimen name="preview_image_size">320dp</dimen>
+    <dimen name="preview_image_size_land">192dp</dimen>
+    <dimen name="title_details_size">22sp</dimen>
+    <dimen name="title_details_size_land">18sp</dimen>
 </resources>

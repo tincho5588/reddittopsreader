@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.tincho5588.reddittopsreader.R
 import com.tincho5588.reddittopsreader.data.model.Post
+import com.tincho5588.reddittopsreader.util.Utils.calculateCreatedTimeHours
 
 class TopsListAdapter(var posts: List<Post>, val itemClickedCallback: (post: Post) -> Unit) :
     RecyclerView.Adapter<TopsListAdapter.ViewHolder>() {
@@ -67,9 +68,9 @@ class TopsListAdapter(var posts: List<Post>, val itemClickedCallback: (post: Pos
         holder.upvotes.text =
             holder.upvotes.context.getString(R.string.upvotes_count, posts[position].ups.toString())
 
-        val createdHours = (System.currentTimeMillis() / 1000 - posts[position].created_utc) / 3600
         holder.created.text =
-            holder.created.context.getString(R.string.created_hours_ago, createdHours.toString())
+            holder.created.context.getString(R.string.created_hours_ago,
+                calculateCreatedTimeHours(posts[position].created_utc).toString())
 
         if (posts[position].seen) {
             holder.seen.setImageDrawable(null)
@@ -82,11 +83,10 @@ class TopsListAdapter(var posts: List<Post>, val itemClickedCallback: (post: Pos
             )
         }
 
-        if (posts[position].thumbnail.isNotEmpty()) {
-            Glide.with(holder.preview.context)
-                .load(posts[position].thumbnail)
-                .into(holder.preview)
-        }
+        Glide.with(holder.preview.context)
+            .load(posts[position].thumbnail)
+            .error(R.drawable.reddit_logo)
+            .into(holder.preview)
 
         holder.cardView.setOnClickListener {
             itemClickedCallback(posts[holder.bindingAdapterPosition])
