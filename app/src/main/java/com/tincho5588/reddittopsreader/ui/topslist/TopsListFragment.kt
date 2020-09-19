@@ -2,18 +2,15 @@ package com.tincho5588.reddittopsreader.ui.topslist
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import android.view.animation.Animation
-import android.view.animation.AnimationUtils
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
-import androidx.recyclerview.widget.*
-import com.mikepenz.itemanimators.SlideInOutLeftAnimator
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.mikepenz.itemanimators.SlideRightAlphaAnimator
 import com.tincho5588.reddittopsreader.R
 import dagger.hilt.android.AndroidEntryPoint
@@ -23,6 +20,7 @@ import kotlinx.android.synthetic.main.tops_list_fragment.*
 class TopsListFragment : Fragment(R.layout.tops_list_fragment) {
     companion object {
         const val TOPS_LIST_FRAGMENT_TAG = "POST_LIST_FRAGMENT"
+        private const val LAYOUT_MANAGER_STATE_KEY = "LAYOUT_MANAGER_STATE"
 
         fun newInstance(): Fragment {
             val args = Bundle()
@@ -36,6 +34,7 @@ class TopsListFragment : Fragment(R.layout.tops_list_fragment) {
     private val viewModel: TopPostsViewModel by viewModels()
     private lateinit var viewAdapter: TopsListAdapter
     private lateinit var postClickedListener: PostClickedListener
+    private lateinit var recyclerViewLayoutManager: LinearLayoutManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,6 +53,30 @@ class TopsListFragment : Fragment(R.layout.tops_list_fragment) {
         startObservingData()
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.toolbar_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.dismiss_all) {
+            viewModel.dismissAll()
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+
+        savedInstanceState?.let {
+            recyclerViewLayoutManager.onRestoreInstanceState(savedInstanceState.getParcelable(LAYOUT_MANAGER_STATE_KEY))
+        }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putParcelable(LAYOUT_MANAGER_STATE_KEY, recyclerViewLayoutManager.onSaveInstanceState())
+    }
+
     private fun setupAdapter() {
         // RecyclerView Adapter setup
         viewAdapter = TopsListAdapter(viewModel.posts.value ?: emptyList()) {
@@ -68,8 +91,9 @@ class TopsListFragment : Fragment(R.layout.tops_list_fragment) {
         tops_list_recycler_view.itemAnimator = SlideRightAlphaAnimator()
 
         // RecyclerView setup
+        recyclerViewLayoutManager = LinearLayoutManager(context)
         tops_list_recycler_view.apply {
-            layoutManager = LinearLayoutManager(context)
+            layoutManager = recyclerViewLayoutManager
             adapter = viewAdapter
         }
 
@@ -91,16 +115,5 @@ class TopsListFragment : Fragment(R.layout.tops_list_fragment) {
         swipe_to_refresh_layout.setOnRefreshListener {
             viewModel.refreshPosts()
         }
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.toolbar_menu, menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.dismiss_all) {
-            viewModel.dismissAll()
-        }
-        return super.onOptionsItemSelected(item)
     }
 }
