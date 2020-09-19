@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Reddit Tops Reader</string>
+
+    <string name="dismiss_all">Dismiss all</string>
+    <string name="about">About</string>
+    <string name="comments_count">%s comments</string>
+    <string name="upvotes_count">%s upvotes</string>
+    <string name="created_hours_ago">%s hrs</string>
+    <string name="separator_bullet"> ● </string>
+</resources>

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/margin_small">
+    
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/preview_image"
+            android:layout_width="@dimen/preview_image_size"
+            android:layout_height="@dimen/preview_image_size"
+            android:layout_margin="@dimen/margin_xsmall"
+            android:src="@drawable/reddit_logo"
+            app:layout_constraintBottom_toTopOf="@id/comments_number"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/subreddit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_xsmall"
+            android:layout_marginStart="@dimen/margin_xsmall"
+            app:layout_constraintStart_toEndOf="@id/preview_image"
+            app:layout_constraintTop_toTopOf="@id/preview_image"
+            tools:text="/r/subreddit"/>
+
+        <TextView
+            android:id="@+id/first_bullet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_xsmall"
+            android:textAlignment="center"
+            android:text="@string/separator_bullet"
+            app:layout_constraintStart_toEndOf="@id/subreddit"
+            app:layout_constraintTop_toTopOf="@id/preview_image"/>
+
+        <TextView
+            android:id="@+id/created_time_hours"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textSize="@dimen/text_size_xsmall"
+            tools:text="10 hrs"
+            app:layout_constraintStart_toEndOf="@id/first_bullet"
+            app:layout_constraintTop_toTopOf="@id/preview_image" />
+
+        <TextView
+            android:id="@+id/second_bullet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_xsmall"
+            android:textAlignment="center"
+            android:text="@string/separator_bullet"
+            app:layout_constraintStart_toEndOf="@+id/created_time_hours"
+            app:layout_constraintTop_toTopOf="@+id/preview_image"/>
+
+        <TextView
+            android:id="@+id/author"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_xsmall"
+            android:ellipsize="end"
+            app:layout_constraintStart_toEndOf="@id/second_bullet"
+            app:layout_constraintTop_toTopOf="@id/preview_image"
+            tools:text="some_cool_author"/>
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/margin_xsmall"
+            android:layout_marginEnd="@dimen/margin_xsmall"
+            android:layout_marginTop="@dimen/margin_xsmall"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintVertical_bias="0.0"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/preview_image"
+            app:layout_constraintTop_toBottomOf="@id/subreddit"
+            app:layout_constraintBottom_toBottomOf="@id/preview_image"
+            tools:text="some really really really really really really long title"/>
+
+        <TextView
+            android:id="@+id/comments_number"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/seen_icon_size"
+            android:layout_margin="@dimen/margin_xsmall"
+            android:drawableStart="@drawable/ic_comment_black"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="1000 comments" />
+
+        <TextView
+            android:id="@+id/upvotes_number"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/seen_icon_size"
+            android:layout_marginBottom="@dimen/margin_xsmall"
+            android:drawableStart="@drawable/ic_arrow_upward_black"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/comments_number"
+            tools:text="10000 upvotes"/>
+
+        <ImageView
+            android:id="@+id/seen_icon"
+            android:layout_width="@dimen/seen_icon_size"
+            android:layout_height="@dimen/seen_icon_size"
+            android:layout_margin="@dimen/margin_xsmall"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="preview_image_size">128dp</dimen>
+    <dimen name="seen_icon_size">24dp</dimen>
+    <dimen name="margin_xsmall">4dp</dimen>
+    <dimen name="margin_small">6dp</dimen>
+    <dimen name="text_size_xsmall">12sp</dimen>
+</resources>
