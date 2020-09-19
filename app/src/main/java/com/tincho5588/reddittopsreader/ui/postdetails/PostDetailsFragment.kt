@@ -40,6 +40,8 @@ class PostDetailsFragment : Fragment(R.layout.post_details_fragment) {
         super.onCreate(savedInstanceState)
 
         post = arguments?.getParcelable(POST_ARG_KEY)!!
+
+        Toast.makeText(requireContext(), R.string.download_image_hint, Toast.LENGTH_SHORT).show()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

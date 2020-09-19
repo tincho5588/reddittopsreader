@@ -6,6 +6,7 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
@@ -40,6 +41,8 @@ class TopsListFragment : Fragment(R.layout.tops_list_fragment) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
+
+        Toast.makeText(requireContext(), R.string.dismiss_hint, Toast.LENGTH_SHORT).show()
     }
 
     override fun onAttach(context: Context) {
