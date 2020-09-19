@@ -62,8 +62,9 @@ class TopsListFragment : Fragment(R.layout.tops_list_fragment) {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.dismiss_all) {
-            viewModel.dismissAll()
+        when (item.itemId) {
+            R.id.dismiss_all -> viewModel.dismissAll()
+            R.id.about -> AboutDialogFragment().show(childFragmentManager, "ABOUT_DIALOG_FRAGMENT")
         }
         return super.onOptionsItemSelected(item)
     }

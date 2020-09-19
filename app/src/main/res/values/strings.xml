@@ -3,7 +3,6 @@
 
     // Strings to Display a Post
     <string name="dismiss_all">Dismiss all</string>
-    <string name="about">About</string>
     <string name="comments_count">%s comments</string>
     <string name="upvotes_count">%s upvotes</string>
     <string name="created_hours_ago">%s hrs ago</string>
@@ -21,4 +20,9 @@
     <string name="dismiss_hint">Swipe an item to the left to dismiss it!</string>
     <string name="download_image_hint">Tap and hold on the image to download it!</string>
     <string name="comments_coming_soon">Comments Coming Soon!</string>
+
+    // About
+    <string name="about">About</string>
+    <string name="close">Close</string>
+    <string name="about_message">A simple Reddit client that shows the Top 50 Reddit entries.\n\nAuthor: Martin Bouchet\nThis project is Open Source:\nwww.github.com/tincho5588/reddittopsreader/</string>
 </resources>
