@@ -34,4 +34,6 @@ ext {
     hilt_viewmodel_version = '1.0.0-alpha02'
     room_version = "2.2.5"
     glide_version = "4.11.0"
+    robolectric_version = "4.4"
+    mockito_version = "3.5.11"
 }

@@ -33,6 +33,12 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
+
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
 }
 
 dependencies {
@@ -49,9 +55,6 @@ dependencies {
     implementation "androidx.recyclerview:recyclerview:1.2.0-alpha05"
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
 
-    // junit
-    testImplementation 'junit:junit:4.12'
-
     // Retrofit
     implementation "com.squareup.retrofit2:retrofit:$rootProject.retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$rootProject.retrofit_version"
@@ -67,17 +70,10 @@ dependencies {
     implementation "androidx.hilt:hilt-lifecycle-viewmodel:$rootProject.hilt_viewmodel_version"
     kapt "androidx.hilt:hilt-compiler:$rootProject.hilt_viewmodel_version"
 
-    // Hilt unit tests
-    testImplementation "com.google.dagger:hilt-android-testing:$rootProject.hilt_version"
-    kaptTest "com.google.dagger:hilt-android-compiler:$rootProject.hilt_version"
-
     // Room
     implementation "androidx.room:room-runtime:$rootProject.room_version"
     kapt "androidx.room:room-compiler:$rootProject.room_version"
     implementation "androidx.room:room-ktx:$rootProject.room_version"
-
-    // Room for Unit Tests
-    testImplementation "androidx.room:room-testing:$rootProject.room_version"
 
     // Glide
     implementation "com.github.bumptech.glide:glide:$rootProject.glide_version"
@@ -85,6 +81,22 @@ dependencies {
 
     // RecyclerView ItemAnimators
     implementation "com.mikepenz:itemanimators:1.1.0"
+
+    // junit
+    testImplementation 'junit:junit:4.12'
+
+    // Robolectric
+    testImplementation "org.robolectric:robolectric:$rootProject.robolectric_version"
+
+    // Mockito
+    testImplementation "org.mockito:mockito-core:$rootProject.mockito_version"
+
+    // Hilt unit tests
+    testImplementation "com.google.dagger:hilt-android-testing:$rootProject.hilt_version"
+    kaptTest "com.google.dagger:hilt-android-compiler:$rootProject.hilt_version"
+
+    // Room for Unit Tests
+    testImplementation "androidx.room:room-testing:$rootProject.room_version"
 }
 
 kapt {

@@ -69,6 +69,7 @@ data class Post(
             dest.writeString(id)
             dest.writeString(title)
             dest.writeString(thumbnail)
+            dest.writeString(author)
             dest.writeInt(num_comments)
             dest.writeLong(created_utc)
             dest.writeInt(ups)
