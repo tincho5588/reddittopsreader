@@ -1,6 +1,7 @@
 package com.tincho5588.reddittopsreader.data.model
 
 import android.os.Parcel
+import com.tincho5588.reddittopsreader.data.utils.PostsProvider.provideNotSeenNotDismissedPost
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.HiltTestApplication
 import org.junit.Assert.assertEquals
@@ -18,19 +19,7 @@ class TopsListTest {
 
     @Before
     fun setup() {
-        post = Post(
-            "1",
-            "Sometittle",
-            "SomeThumbnail",
-            "SomeAuthor",
-            3,
-            123456789,
-            987654321,
-            "SomeSubreddit",
-            "SomeUrl",
-            true,
-            true
-        )
+        post = provideNotSeenNotDismissedPost()
     }
 
     @Test

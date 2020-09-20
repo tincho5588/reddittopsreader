@@ -21,6 +21,9 @@
     <string name="download_image_hint">Tap and hold on the image to download it!</string>
     <string name="comments_coming_soon">Comments Coming Soon!</string>
 
+    // Retrieval failure
+    <string name="failed_to_retrieve">Failed to retrieve data from Reddit</string>
+
     // About
     <string name="about">About</string>
     <string name="close">Close</string>
