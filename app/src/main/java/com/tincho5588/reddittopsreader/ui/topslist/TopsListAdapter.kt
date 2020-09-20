@@ -64,7 +64,7 @@ class TopsListAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = getItem(position)!!
+        val item = getItem(position)?: return
 
         holder.title.text = item.title
         holder.subredit.text = item.subreddit_name_prefixed

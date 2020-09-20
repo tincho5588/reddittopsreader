@@ -8,5 +8,5 @@ object Constants {
     const val POSTS_DATABASE_NAME = "posts_database"
     const val DEVICE_ID_PREF_KEY = "DEVICE_ID"
 
-    const val DATA_PAGE_SIZE = 5
+    const val DATA_PAGE_SIZE = 10
 }

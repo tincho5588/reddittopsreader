@@ -12,7 +12,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.mikepenz.itemanimators.SlideRightAlphaAnimator
 import com.tincho5588.reddittopsreader.R
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.tops_list_fragment.*
@@ -89,10 +88,6 @@ class TopsListFragment : Fragment(R.layout.tops_list_fragment) {
     }
 
     private fun setupRecyclerView() {
-        // Custom ItemAnimator. The remove animation of the default RecyclerView item animator is awful
-        // Using a library because writing a custom ItemAnimator would take as much work as writing this whole app
-        tops_list_recycler_view.itemAnimator = SlideRightAlphaAnimator()
-
         // RecyclerView setup
         recyclerViewLayoutManager = LinearLayoutManager(context)
         tops_list_recycler_view.apply {

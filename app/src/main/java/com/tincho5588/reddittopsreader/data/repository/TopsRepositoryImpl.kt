@@ -28,7 +28,7 @@ class TopsRepositoryImpl(
         val config = PagedList.Config.Builder()
             .setPageSize(DATA_PAGE_SIZE)
             .setInitialLoadSizeHint(DATA_PAGE_SIZE * 2)
-            .setEnablePlaceholders(false)
+            .setEnablePlaceholders(true)
             .build()
 
         return LivePagedListBuilder(postDao.load(), config)

@@ -83,9 +83,6 @@ dependencies {
     implementation "com.github.bumptech.glide:glide:$rootProject.glide_version"
     annotationProcessor "com.github.bumptech.glide:compiler:$rootProject.glide_version"
 
-    // RecyclerView ItemAnimators
-    implementation "com.mikepenz:itemanimators:1.1.0"
-
     // Paging Library
     implementation "androidx.paging:paging-runtime-ktx:$rootProject.paging_version"
 }
