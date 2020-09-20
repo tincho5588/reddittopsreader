@@ -40,7 +40,11 @@ object SingletonsModule {
 
     @Provides
     @Singleton
-    fun provideTopsRepository(@ApplicationContext context: Context, topsService: TopsService, postDao: PostDao): TopsRepository {
+    fun provideTopsRepository(
+        @ApplicationContext context: Context,
+        topsService: TopsService,
+        postDao: PostDao
+    ): TopsRepository {
         return TopsRepositoryImpl(context, topsService, postDao)
     }
 
@@ -51,7 +55,8 @@ object SingletonsModule {
             context.applicationContext,
             PostsDatabase::class.java,
             POSTS_DATABASE_NAME
-        ).build()
+        )
+            .build()
     }
 
     @Provides

@@ -3,11 +3,13 @@ package com.tincho5588.reddittopsreader.data.repository
 import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
+import androidx.paging.LivePagedListBuilder
+import androidx.paging.PagedList
 import com.tincho5588.reddittopsreader.data.model.Post
 import com.tincho5588.reddittopsreader.data.model.TopsList
 import com.tincho5588.reddittopsreader.data.retrofit.service.TopsService
 import com.tincho5588.reddittopsreader.data.room.dao.PostDao
-import com.tincho5588.reddittopsreader.util.Constants.POSTS_TO_SHOW
+import com.tincho5588.reddittopsreader.util.Constants.DATA_PAGE_SIZE
 import com.tincho5588.reddittopsreader.util.Utils.isNetworkAvailable
 import com.tincho5588.reddittopsreader.util.Utils.showNetworkUnavailableToast
 import kotlinx.coroutines.Dispatchers
@@ -22,18 +24,33 @@ class TopsRepositoryImpl(
     private val topsService: TopsService,
     private val postDao: PostDao
 ) : TopsRepository {
-    override fun getTops(): LiveData<List<Post>> {
-        // Returns a LiveData object directly from the database.
-        return postDao.load()
+    override fun getTops(): LiveData<PagedList<Post>> {
+        val config = PagedList.Config.Builder()
+            .setPageSize(DATA_PAGE_SIZE)
+            .setInitialLoadSizeHint(DATA_PAGE_SIZE * 2)
+            .setEnablePlaceholders(false)
+            .build()
+
+        return LivePagedListBuilder(postDao.load(), config)
+            .setBoundaryCallback(object : PagedList.BoundaryCallback<Post>() {
+                override fun onZeroItemsLoaded() {
+                    fetchForItems("", DATA_PAGE_SIZE * 2)
+                }
+
+                override fun onItemAtEndLoaded(itemAtEnd: Post) {
+                    fetchForItems(itemAtEnd.name, DATA_PAGE_SIZE)
+                }
+            })
+            .build()
     }
 
-    override fun refreshPosts() {
+    override fun fetchForItems(after: String, amount: Int) {
         if (!isNetworkAvailable(context)) {
             showNetworkUnavailableToast(context)
             return
         }
 
-        val call = topsService.getTops(POSTS_TO_SHOW)
+        val call = topsService.getTops(amount, after)
         call.enqueue(object : Callback<TopsList> {
             override fun onFailure(call: Call<TopsList>, t: Throwable) {
                 Log.d(TopsRepositoryImpl::class.simpleName, "Failed to retrieve posts from Reddit")
@@ -44,10 +61,12 @@ class TopsRepositoryImpl(
 
                 GlobalScope.launch(Dispatchers.IO) {
                     val retrievedPosts = ArrayList<Post>()
-                    val seenPosts: List<Post> = postDao.loadSeenPosts()
+                    val seenPosts: List<Post> = postDao.loadSeenAndDismissedPosts()
                     topsList.data.children.forEach { fetchedPost ->
-                        fetchedPost.data.seen =
-                            seenPosts.firstOrNull { fetchedPost.data.id == it.id } != null
+                        seenPosts.firstOrNull { fetchedPost.data.id == it.id }?.let {
+                            fetchedPost.data.seen = it.seen
+                            fetchedPost.data.dismissed = it.dismissed
+                        }
                         retrievedPosts.add(fetchedPost.data)
                     }
                     postDao.insert(retrievedPosts)
@@ -65,12 +84,6 @@ class TopsRepositoryImpl(
     override fun dismiss(post: Post) {
         GlobalScope.launch(Dispatchers.IO) {
             postDao.dismiss(post.id)
-        }
-    }
-
-    override fun dismissAll() {
-        GlobalScope.launch(Dispatchers.IO) {
-            postDao.dismissAll()
         }
     }
 }

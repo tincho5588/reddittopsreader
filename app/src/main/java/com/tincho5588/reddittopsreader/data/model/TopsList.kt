@@ -34,6 +34,7 @@ data class Post(
     val ups: Int,
     val subreddit_name_prefixed: String,
     val url: String,
+    val name: String,
     var seen: Boolean = false,
     var dismissed: Boolean = false
 ) : Parcelable {
@@ -56,6 +57,7 @@ data class Post(
         source.readInt(),
         source.readString()!!,
         source.readString()!!,
+        source.readString()!!,
         source.readInt() == 1,
         source.readInt() == 1
     )
@@ -74,6 +76,7 @@ data class Post(
             dest.writeInt(ups)
             dest.writeString(subreddit_name_prefixed)
             dest.writeString(url)
+            dest.writeString(name)
             dest.writeInt(if (seen) 1 else 0)
             dest.writeInt(if (dismissed) 1 else 0)
         }

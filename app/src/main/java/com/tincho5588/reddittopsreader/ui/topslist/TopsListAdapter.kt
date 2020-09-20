@@ -6,6 +6,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
+import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -13,8 +14,12 @@ import com.tincho5588.reddittopsreader.R
 import com.tincho5588.reddittopsreader.data.model.Post
 import com.tincho5588.reddittopsreader.util.Utils.calculateCreatedTimeHours
 
-class TopsListAdapter(var posts: List<Post>, val itemClickedCallback: (post: Post) -> Unit) :
-    RecyclerView.Adapter<TopsListAdapter.ViewHolder>() {
+class TopsListAdapter(
+    itemCallback: DiffUtil.ItemCallback<Post> = PostItemDiffCallback(),
+    val itemClickedCallback: (post: Post) -> Unit
+) :
+    PagedListAdapter<Post, TopsListAdapter.ViewHolder>(itemCallback) {
+
     class ViewHolder(cardView: CardView) : RecyclerView.ViewHolder(cardView) {
         lateinit var cardView: CardView
         lateinit var title: TextView
@@ -25,6 +30,16 @@ class TopsListAdapter(var posts: List<Post>, val itemClickedCallback: (post: Pos
         lateinit var upvotes: TextView
         lateinit var seen: ImageView
         lateinit var preview: ImageView
+    }
+
+    class PostItemDiffCallback : DiffUtil.ItemCallback<Post>() {
+        override fun areItemsTheSame(oldItem: Post, newItem: Post): Boolean {
+            return oldItem.id == newItem.id
+        }
+
+        override fun areContentsTheSame(oldItem: Post, newItem: Post): Boolean {
+            return oldItem == newItem
+        }
     }
 
     override fun onCreateViewHolder(
@@ -48,16 +63,8 @@ class TopsListAdapter(var posts: List<Post>, val itemClickedCallback: (post: Pos
         return holder
     }
 
-    override fun getItemCount(): Int {
-        return posts.size
-    }
-
-    fun getItem(position: Int): Post {
-        return posts[position]
-    }
-
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = getItem(position)
+        val item = getItem(position)!!
 
         holder.title.text = item.title
         holder.subredit.text = item.subreddit_name_prefixed
@@ -71,8 +78,10 @@ class TopsListAdapter(var posts: List<Post>, val itemClickedCallback: (post: Pos
             holder.upvotes.context.getString(R.string.upvotes_count, item.ups.toString())
 
         holder.created.text =
-            holder.created.context.getString(R.string.created_hours_ago,
-                calculateCreatedTimeHours(item.created_utc).toString())
+            holder.created.context.getString(
+                R.string.created_hours_ago,
+                calculateCreatedTimeHours(item.created_utc).toString()
+            )
 
         if (!item.seen) {
             holder.seen.setImageDrawable(
@@ -93,26 +102,7 @@ class TopsListAdapter(var posts: List<Post>, val itemClickedCallback: (post: Pos
         }
     }
 
-    fun updateDataset(newData: List<Post>) {
-        val diffResult = DiffUtil.calculateDiff(object : DiffUtil.Callback() {
-            override fun getOldListSize(): Int {
-                return posts.size
-            }
-
-            override fun getNewListSize(): Int {
-                return newData.size
-            }
-
-            override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-                return posts[oldItemPosition].id == newData[newItemPosition].id
-            }
-
-            override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-                return posts[oldItemPosition] == newData[newItemPosition]
-            }
-        })
-
-        posts = newData
-        diffResult.dispatchUpdatesTo(this)
+    public override fun getItem(position: Int): Post? {
+        return super.getItem(position)
     }
 }

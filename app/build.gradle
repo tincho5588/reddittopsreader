@@ -85,6 +85,9 @@ dependencies {
 
     // RecyclerView ItemAnimators
     implementation "com.mikepenz:itemanimators:1.1.0"
+
+    // Paging Library
+    implementation "androidx.paging:paging-runtime-ktx:$rootProject.paging_version"
 }
 
 kapt {

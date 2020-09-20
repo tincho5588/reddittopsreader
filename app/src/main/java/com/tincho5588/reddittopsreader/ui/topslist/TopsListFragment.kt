@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mikepenz.itemanimators.SlideRightAlphaAnimator
 import com.tincho5588.reddittopsreader.R
-import com.tincho5588.reddittopsreader.util.Utils.isNetworkAvailable
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.tops_list_fragment.*
 
@@ -63,7 +62,6 @@ class TopsListFragment : Fragment(R.layout.tops_list_fragment) {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.dismiss_all -> viewModel.dismissAll()
             R.id.about -> AboutDialogFragment().show(childFragmentManager, "ABOUT_DIALOG_FRAGMENT")
         }
         return super.onOptionsItemSelected(item)
@@ -84,7 +82,7 @@ class TopsListFragment : Fragment(R.layout.tops_list_fragment) {
 
     private fun setupAdapter() {
         // RecyclerView Adapter setup
-        viewAdapter = TopsListAdapter(viewModel.posts.value ?: emptyList()) { post ->
+        viewAdapter = TopsListAdapter { post ->
             viewModel.markAsSeen(post)
             postClickedListener.onPostItemClicked(post)
         }
@@ -104,7 +102,7 @@ class TopsListFragment : Fragment(R.layout.tops_list_fragment) {
 
         // Swipe to dismiss gesture
         val swipeToDeleteCallback = SwipeToDeleteCallback(requireContext()) { position ->
-            viewModel.dismiss(viewAdapter.getItem(position))
+            viewModel.dismiss(viewAdapter.getItem(position)!!)
         }
         val itemTouchHelper = ItemTouchHelper(swipeToDeleteCallback)
         itemTouchHelper.attachToRecyclerView(tops_list_recycler_view)
@@ -112,14 +110,7 @@ class TopsListFragment : Fragment(R.layout.tops_list_fragment) {
 
     private fun startObservingData() {
         viewModel.posts.observe(viewLifecycleOwner) { newList ->
-            swipe_to_refresh_layout.isRefreshing = false
-            viewAdapter.updateDataset(newList)
-        }
-
-        // Swipe to refresh gesture
-        swipe_to_refresh_layout.setOnRefreshListener {
-            viewModel.refreshPosts()
-            if (!isNetworkAvailable(requireContext())) swipe_to_refresh_layout.isRefreshing = false
+            viewAdapter.submitList(newList)
         }
     }
 }
