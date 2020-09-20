@@ -44,14 +44,10 @@ class TopsRepositoryImpl(
 
                 GlobalScope.launch(Dispatchers.IO) {
                     val retrievedPosts = ArrayList<Post>()
-                    val dismissedAndSeenPost: List<Post> = postDao.loadSeenPosts()
+                    val seenPosts: List<Post> = postDao.loadSeenPosts()
                     topsList.data.children.forEach { fetchedPost ->
-                        for (dismissedAndSeen in dismissedAndSeenPost) {
-                            if (dismissedAndSeen.id == fetchedPost.data.id) {
-                                fetchedPost.data.seen = dismissedAndSeen.seen
-                                break
-                            }
-                        }
+                        fetchedPost.data.seen =
+                            seenPosts.firstOrNull { fetchedPost.data.id == it.id } != null
                         retrievedPosts.add(fetchedPost.data)
                     }
                     postDao.insert(retrievedPosts)
@@ -69,6 +65,12 @@ class TopsRepositoryImpl(
     override fun dismiss(post: Post) {
         GlobalScope.launch(Dispatchers.IO) {
             postDao.dismiss(post.id)
+        }
+    }
+
+    override fun dismissAll() {
+        GlobalScope.launch(Dispatchers.IO) {
+            postDao.dismissAll()
         }
     }
 }

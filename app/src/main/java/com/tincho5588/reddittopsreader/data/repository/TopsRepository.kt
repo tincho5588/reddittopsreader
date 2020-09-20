@@ -11,4 +11,6 @@ interface TopsRepository {
     fun markAsSeen(post: Post)
 
     fun dismiss(post: Post)
+
+    fun dismissAll()
 }

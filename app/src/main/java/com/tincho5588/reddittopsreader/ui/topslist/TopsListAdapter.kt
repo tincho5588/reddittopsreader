@@ -57,24 +57,24 @@ class TopsListAdapter(var posts: List<Post>, val itemClickedCallback: (post: Pos
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.title.text = posts[position].title
-        holder.subredit.text = posts[position].subreddit_name_prefixed
-        holder.author.text = posts[position].author
+        val item = getItem(position)
+
+        holder.title.text = item.title
+        holder.subredit.text = item.subreddit_name_prefixed
+        holder.author.text = item.author
 
         holder.comments.text = holder.comments.context.getString(
             R.string.comments_count,
-            posts[position].num_comments.toString()
+            item.num_comments.toString()
         )
         holder.upvotes.text =
-            holder.upvotes.context.getString(R.string.upvotes_count, posts[position].ups.toString())
+            holder.upvotes.context.getString(R.string.upvotes_count, item.ups.toString())
 
         holder.created.text =
             holder.created.context.getString(R.string.created_hours_ago,
-                calculateCreatedTimeHours(posts[position].created_utc).toString())
+                calculateCreatedTimeHours(item.created_utc).toString())
 
-        if (posts[position].seen) {
-            holder.seen.setImageDrawable(null)
-        } else {
+        if (!item.seen) {
             holder.seen.setImageDrawable(
                 ContextCompat.getDrawable(
                     holder.seen.context,
@@ -84,12 +84,12 @@ class TopsListAdapter(var posts: List<Post>, val itemClickedCallback: (post: Pos
         }
 
         Glide.with(holder.preview.context)
-            .load(posts[position].thumbnail)
+            .load(item.thumbnail)
             .error(R.drawable.ic_image_not_supported_black)
             .into(holder.preview)
 
         holder.cardView.setOnClickListener {
-            itemClickedCallback(posts[holder.bindingAdapterPosition])
+            itemClickedCallback(item)
         }
     }
 

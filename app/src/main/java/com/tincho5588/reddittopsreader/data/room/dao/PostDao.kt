@@ -22,6 +22,9 @@ interface PostDao {
     @Query("UPDATE Post SET dismissed = 1 WHERE id = :id")
     fun dismiss(id: String)
 
+    @Query("UPDATE Post SET dismissed = 1")
+    fun dismissAll()
+
     @Query("UPDATE Post SET seen = 1 WHERE id = :id")
     fun markAsSeen(id: String)
 }
