@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.view.drawToBitmap
 import androidx.fragment.app.Fragment
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.tincho5588.reddittopsreader.R
 import com.tincho5588.reddittopsreader.data.model.Post
@@ -63,8 +64,14 @@ class PostDetailsFragment : Fragment(R.layout.post_details_fragment) {
             post.ups.toString()
         )
 
+        val circularProgress = CircularProgressDrawable(requireContext())
+        circularProgress.strokeWidth = 20f
+        circularProgress.centerRadius = 100f
+        circularProgress.start()
+
         Glide.with(view.context)
             .load(post.url)
+            .placeholder(circularProgress)
             .error(R.drawable.ic_image_not_supported_black)
             .into(preview_image)
 
