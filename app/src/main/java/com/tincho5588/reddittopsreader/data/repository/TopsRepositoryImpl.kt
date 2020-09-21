@@ -34,19 +34,20 @@ class TopsRepositoryImpl(
         return LivePagedListBuilder(postDao.load(), config)
             .setBoundaryCallback(object : PagedList.BoundaryCallback<Post>() {
                 override fun onZeroItemsLoaded() {
-                    fetchForItems("", DATA_PAGE_SIZE * 2)
+                    fetchForItems("", DATA_PAGE_SIZE * 2) {}
                 }
 
                 override fun onItemAtEndLoaded(itemAtEnd: Post) {
-                    fetchForItems(itemAtEnd.name, DATA_PAGE_SIZE)
+                    fetchForItems(itemAtEnd.name, DATA_PAGE_SIZE) {}
                 }
             })
             .build()
     }
 
-    override fun fetchForItems(after: String, amount: Int) {
+    override fun fetchForItems(after: String, amount: Int, doneCallback: (() -> Unit)?) {
         if (!isNetworkAvailable(context)) {
             showNetworkUnavailableToast(context)
+            doneCallback?.invoke()
             return
         }
 
@@ -54,6 +55,7 @@ class TopsRepositoryImpl(
         call.enqueue(object : Callback<TopsList> {
             override fun onFailure(call: Call<TopsList>, t: Throwable) {
                 Log.d(TopsRepositoryImpl::class.simpleName, "Failed to retrieve posts from Reddit")
+                doneCallback?.invoke()
             }
 
             override fun onResponse(call: Call<TopsList>, response: Response<TopsList>) {
@@ -70,6 +72,7 @@ class TopsRepositoryImpl(
                         retrievedPosts.add(fetchedPost.data)
                     }
                     postDao.insert(retrievedPosts)
+                    doneCallback?.invoke()
                 }
             }
         })
