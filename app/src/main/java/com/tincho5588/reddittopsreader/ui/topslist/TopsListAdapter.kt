@@ -1,6 +1,8 @@
 package com.tincho5588.reddittopsreader.ui.topslist
 
 import android.view.LayoutInflater
+import android.view.View.INVISIBLE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
@@ -61,29 +63,26 @@ class TopsListAdapter(var posts: List<Post>, val itemClickedCallback: (post: Pos
 
         holder.title.text = item.title
         holder.subredit.text = item.subreddit_name_prefixed
-        holder.author.text = item.author
-
-        holder.comments.text = holder.comments.context.getString(
-            R.string.comments_count,
-            item.num_comments.toString()
+        holder.author.text = holder.author.context.getString(
+            R.string.user,
+            item.author
         )
-        holder.upvotes.text =
-            holder.upvotes.context.getString(R.string.upvotes_count, item.ups.toString())
+
+        holder.comments.text = item.num_comments.toString()
+        holder.upvotes.text = item.ups.toString()
 
         holder.created.text =
             holder.created.context.getString(R.string.created_hours_ago,
                 calculateCreatedTimeHours(item.created_utc).toString())
 
-        if (!item.seen) {
-            holder.newIcon.setImageDrawable(
-                ContextCompat.getDrawable(
-                    holder.newIcon.context,
-                    R.drawable.ic_new_black
-                )
+        holder.newIcon.visibility = if (item.seen) INVISIBLE else VISIBLE
+        holder.newIcon.setImageDrawable(
+            ContextCompat.getDrawable(
+                holder.newIcon.context,
+                R.drawable.ic_new_black
             )
-        } else {
-            holder.newIcon.setImageDrawable(null)
-        }
+        )
+
 
         Glide.with(holder.thumbnail.context)
             .load(item.thumbnail)
