@@ -2,7 +2,6 @@ package com.tincho5588.reddittopsreader.login.provider
 
 import android.content.Context
 import android.os.StrictMode
-import android.os.SystemClock
 import android.util.Log
 import androidx.preference.PreferenceManager
 import com.tincho5588.reddittopsreader.login.model.AccessToken
@@ -27,7 +26,7 @@ class AccessTokenProviderImpl(
 
     override val token: String
         get() {
-            if (!::realToken.isInitialized || realToken.isExpired()) {
+            if (!::realToken.isInitialized || realToken.expired) {
                 refreshToken()
             }
             return realToken.access_token
@@ -57,7 +56,6 @@ class AccessTokenProviderImpl(
         if (response.isSuccessful) {
             val accessTokenResponse = response.body()!!
             realToken = accessTokenResponse
-            realToken.retrieveTime = SystemClock.elapsedRealtime()
             return
         } else {
             Log.d(AccessTokenProviderImpl::class.simpleName, "Failed to retrieve posts from Reddit")

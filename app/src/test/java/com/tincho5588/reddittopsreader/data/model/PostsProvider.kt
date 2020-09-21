@@ -1,6 +1,4 @@
-package com.tincho5588.reddittopsreader.data.utils
-
-import com.tincho5588.reddittopsreader.data.model.Post
+package com.tincho5588.reddittopsreader.data.model
 
 object PostsProvider {
     var instanceNumber = 0

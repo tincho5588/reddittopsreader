@@ -7,11 +7,11 @@ import com.tincho5588.reddittopsreader.R
 import com.tincho5588.reddittopsreader.data.model.Children
 import com.tincho5588.reddittopsreader.data.model.Data
 import com.tincho5588.reddittopsreader.data.model.Post
+import com.tincho5588.reddittopsreader.data.model.PostsProvider.provideNotSeenNotDismissedPost
+import com.tincho5588.reddittopsreader.data.model.PostsProvider.provideNotSeenNotDismissedPostWithId
 import com.tincho5588.reddittopsreader.data.model.TopsListResponse
 import com.tincho5588.reddittopsreader.data.retrofit.service.TopsService
 import com.tincho5588.reddittopsreader.data.room.dao.PostDao
-import com.tincho5588.reddittopsreader.data.utils.PostsProvider.provideNotSeenNotDismissedPost
-import com.tincho5588.reddittopsreader.data.utils.PostsProvider.provideNotSeenNotDismissedPostWithId
 import com.tincho5588.reddittopsreader.util.Constants.POSTS_TO_SHOW
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.HiltTestApplication

@@ -8,7 +8,7 @@ import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import com.tincho5588.reddittopsreader.data.model.Post
 import com.tincho5588.reddittopsreader.data.room.database.PostsDatabase
-import com.tincho5588.reddittopsreader.data.utils.PostsProvider.provideNotSeenNotDismissedPost
+import com.tincho5588.reddittopsreader.data.model.PostsProvider.provideNotSeenNotDismissedPost
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.HiltTestApplication
 import org.junit.After

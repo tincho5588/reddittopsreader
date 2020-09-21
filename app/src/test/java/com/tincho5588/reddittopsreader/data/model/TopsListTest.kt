@@ -1,7 +1,7 @@
 package com.tincho5588.reddittopsreader.data.model
 
 import android.os.Parcel
-import com.tincho5588.reddittopsreader.data.utils.PostsProvider.provideNotSeenNotDismissedPost
+import com.tincho5588.reddittopsreader.data.model.PostsProvider.provideNotSeenNotDismissedPost
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.HiltTestApplication
 import org.junit.Assert.assertEquals

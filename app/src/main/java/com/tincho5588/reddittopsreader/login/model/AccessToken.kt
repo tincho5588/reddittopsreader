@@ -7,9 +7,11 @@ data class AccessToken(
     val token_type: String,
     val expires_in: Long,
     val scope: String,
-    var retrieveTime: Long = 0
 ) {
-    fun isExpired(): Boolean {
-        return (retrieveTime + expires_in) <= SystemClock.elapsedRealtime()
-    }
+    private val retrieveTime = SystemClock.elapsedRealtime()
+
+    val expired: Boolean
+        get() {
+            return (retrieveTime + expires_in) <= SystemClock.elapsedRealtime()
+        }
 }
