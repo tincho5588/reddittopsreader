@@ -8,7 +8,6 @@ import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.tincho5588.reddittopsreader.R
 import com.tincho5588.reddittopsreader.data.model.Post
@@ -24,8 +23,8 @@ class TopsListAdapter(var posts: List<Post>, val itemClickedCallback: (post: Pos
         lateinit var author: TextView
         lateinit var comments: TextView
         lateinit var upvotes: TextView
-        lateinit var seen: ImageView
-        lateinit var preview: ImageView
+        lateinit var newIcon: ImageView
+        lateinit var thumbnail: ImageView
     }
 
     override fun onCreateViewHolder(
@@ -43,8 +42,8 @@ class TopsListAdapter(var posts: List<Post>, val itemClickedCallback: (post: Pos
         holder.author = cardView.findViewById(R.id.author)
         holder.comments = cardView.findViewById(R.id.comments_number)
         holder.upvotes = cardView.findViewById(R.id.upvotes_number)
-        holder.seen = cardView.findViewById(R.id.seen_icon)
-        holder.preview = cardView.findViewById(R.id.preview_image)
+        holder.newIcon = cardView.findViewById(R.id.new_icon)
+        holder.thumbnail = cardView.findViewById(R.id.preview_image)
 
         return holder
     }
@@ -76,18 +75,20 @@ class TopsListAdapter(var posts: List<Post>, val itemClickedCallback: (post: Pos
                 calculateCreatedTimeHours(item.created_utc).toString())
 
         if (!item.seen) {
-            holder.seen.setImageDrawable(
+            holder.newIcon.setImageDrawable(
                 ContextCompat.getDrawable(
-                    holder.seen.context,
+                    holder.newIcon.context,
                     R.drawable.ic_new_black
                 )
             )
+        } else {
+            holder.newIcon.setImageDrawable(null)
         }
 
-        Glide.with(holder.preview.context)
+        Glide.with(holder.thumbnail.context)
             .load(item.thumbnail)
             .error(R.drawable.ic_image_not_supported_black)
-            .into(holder.preview)
+            .into(holder.thumbnail)
 
         holder.cardView.setOnClickListener {
             itemClickedCallback(item)
