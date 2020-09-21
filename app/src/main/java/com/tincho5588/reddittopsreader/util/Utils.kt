@@ -34,15 +34,12 @@ object Utils {
 
         try {
             val relativeLocation =
-                Environment.DIRECTORY_PICTURES + File.pathSeparator + context.getString(R.string.app_name)
+                Environment.DIRECTORY_PICTURES
 
             val contentValues = ContentValues().apply {
                 put(MediaStore.Images.ImageColumns.DISPLAY_NAME, imageName)
                 put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg")
 
-                // Scoped Storage: On Android P devices images will go to the root of the Pictures folder.
-                // Having a different code path to adopt the legacy method only to achieve storing
-                // the picture in a subfolder is not worth it.
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                     put(MediaStore.Images.ImageColumns.RELATIVE_PATH, relativeLocation)
                 }
