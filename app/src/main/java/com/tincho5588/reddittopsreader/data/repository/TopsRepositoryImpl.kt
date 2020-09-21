@@ -32,9 +32,10 @@ class TopsRepositoryImpl(
         return postDao.loadNotDismissed()
     }
 
-    override fun refreshPosts() {
+    override fun refreshPosts(doneCallback: (() -> Unit)?) {
         if (!isNetworkAvailable(context)) {
             showNetworkUnavailableToast(context)
+            doneCallback?.invoke()
             return
         }
 
@@ -42,11 +43,13 @@ class TopsRepositoryImpl(
         call.enqueue(object : Callback<TopsListResponse> {
             override fun onFailure(call: Call<TopsListResponse>, t: Throwable) {
                 Toast.makeText(context, context.getString(R.string.failed_to_retrieve), LENGTH_SHORT).show()
+                doneCallback?.invoke()
             }
 
             override fun onResponse(call: Call<TopsListResponse>, response: Response<TopsListResponse>) {
                 GlobalScope.launch(dispatcher) {
                     postDao.insert(unwrapResponse(response.body()!!))
+                    doneCallback?.invoke()
                 }
             }
         })

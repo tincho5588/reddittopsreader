@@ -6,7 +6,7 @@ import com.tincho5588.reddittopsreader.data.model.Post
 interface TopsRepository {
     fun getTops(): LiveData<List<Post>>
 
-    fun refreshPosts()
+    fun refreshPosts(doneCallback: (() -> Unit)? = null)
 
     fun markAsSeen(post: Post)
 
