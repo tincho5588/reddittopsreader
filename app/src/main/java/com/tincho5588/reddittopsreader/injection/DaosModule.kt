@@ -9,7 +9,7 @@ import dagger.hilt.android.components.ApplicationComponent
 
 @Module
 @InstallIn(ApplicationComponent::class)
-object DaoModule {
+object DaosModule {
     @Provides
     fun providePostDao(postsDatabase: PostsDatabase): PostDao {
         return postsDatabase.postDao()
