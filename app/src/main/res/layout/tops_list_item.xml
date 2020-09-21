@@ -108,7 +108,7 @@
             android:drawableStart="@drawable/ic_arrow_upward_black" />
 
         <ImageView
-            android:id="@+id/seen_icon"
+            android:id="@+id/new_icon"
             android:layout_width="@dimen/seen_icon_size"
             android:layout_height="@dimen/seen_icon_size"
             android:layout_margin="@dimen/margin_xsmall"
