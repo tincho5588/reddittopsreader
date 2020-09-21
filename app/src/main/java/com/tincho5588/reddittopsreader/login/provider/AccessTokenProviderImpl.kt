@@ -3,6 +3,7 @@ package com.tincho5588.reddittopsreader.login.provider
 import android.content.Context
 import android.os.StrictMode
 import android.util.Log
+import androidx.annotation.VisibleForTesting
 import androidx.preference.PreferenceManager
 import com.tincho5588.reddittopsreader.login.model.AccessToken
 import com.tincho5588.reddittopsreader.login.retrofit.service.AccessTokenService
@@ -32,7 +33,8 @@ class AccessTokenProviderImpl(
             return realToken.access_token
         }
 
-    private val deviceId: String by lazy {
+    @VisibleForTesting
+    internal val deviceId: String by lazy {
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
         var uuid: String = sharedPreferences.getString(DEVICE_ID_PREF_KEY, "") ?: ""
         if (uuid.isEmpty()) {
@@ -42,7 +44,8 @@ class AccessTokenProviderImpl(
         uuid
     }
 
-    private lateinit var realToken: AccessToken
+    @VisibleForTesting
+    internal lateinit var realToken: AccessToken
 
     private fun refreshToken() {
         val basic = Credentials.basic(REDDIT_APP_ID, "")
