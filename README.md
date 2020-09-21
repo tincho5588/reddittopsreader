@@ -35,3 +35,9 @@ Notice that each component depends only on the component one level below it. For
 * **Retrofit** to fetch the Reddit API
 * **Room** to achieve data persistance
 * **Glide** to load images from URLs into the UI
+
+## About Unit Testing
+Unit Testing on this project is being perfomed using **Robolectric** and **Mockito**.
+**All the data providing classes are being covered** by Unit Tests. **That is, the ViewModel layer and below on the Architecture diagram**.
+Hilt Injection is not being used in Unit Tests because **the SOLID Inversion Principle is being achieved by moving the dependencies of a class to the constructor whenever it is possible**. Every tested class exhibits this pattern. Due to this, **Subjects Under Test can be constructed and provided with mocks without the need of using the Injection Framework**.
+Regarding UI tests, it could be tested with Unit Tests, but is is more convenient to test the UI using espresso. But this technology is not included in this project.
