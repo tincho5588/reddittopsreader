@@ -69,7 +69,7 @@ class TopsRepositoryTest {
     fun testGetTopsLoadsItemsFromDatabase() {
         topsRepository.getTops()
 
-        verify(postDao, times(1)).load()
+        verify(postDao, times(1)).loadNotDismissed()
     }
 
     @Test

@@ -1,5 +1,6 @@
 package com.tincho5588.reddittopsreader.data.room.dao
 
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
@@ -14,7 +15,7 @@ interface PostDao {
     fun insert(posts: List<Post>)
 
     @Query("SELECT * FROM Post WHERE NOT dismissed ORDER BY ups DESC LIMIT $POSTS_TO_SHOW")
-    fun load(): LiveData<List<Post>>
+    fun loadNotDismissed(): LiveData<List<Post>>
 
     @Query("SELECT * FROM Post WHERE seen ORDER BY ups DESC")
     fun loadSeenPosts(): List<Post>
@@ -27,4 +28,8 @@ interface PostDao {
 
     @Query("UPDATE Post SET seen = 1 WHERE id = :id")
     fun markAsSeen(id: String)
+
+    @VisibleForTesting
+    @Query("SELECT * FROM Post")
+    fun loadAll(): List<Post>
 }

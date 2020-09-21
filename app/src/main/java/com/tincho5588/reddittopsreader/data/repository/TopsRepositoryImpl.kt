@@ -29,7 +29,7 @@ class TopsRepositoryImpl(
 ) : TopsRepository {
     override fun getTops(): LiveData<List<Post>> {
         // Returns a LiveData object directly from the database.
-        return postDao.load()
+        return postDao.loadNotDismissed()
     }
 
     override fun refreshPosts() {
