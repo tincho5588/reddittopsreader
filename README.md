@@ -23,6 +23,7 @@ For the purpose of demonstrating how a paginated implementation would be, the fe
 * No "Swipe to Refresh" feature
 * No "Dismiss All" feature
 * No "50 posts" limit
+
 **Note: Doing an update installation from master to paging_support and vice-versa is not supported. The Room database entities are different.**
 
 ## Architecture
