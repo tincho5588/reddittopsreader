@@ -3,18 +3,14 @@ package com.tincho5588.reddittopsreader.ui.postdetails
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.view.ContextMenu
-import android.view.MenuItem
-import android.view.View
+import android.view.*
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.view.drawToBitmap
 import androidx.fragment.app.Fragment
-import androidx.swiperefreshlayout.widget.CircularProgressDrawable
-import com.bumptech.glide.Glide
 import com.tincho5588.reddittopsreader.R
 import com.tincho5588.reddittopsreader.data.model.Post
-import com.tincho5588.reddittopsreader.util.Utils
+import com.tincho5588.reddittopsreader.databinding.PostDetailsFragmentBinding
 import com.tincho5588.reddittopsreader.util.Utils.downloadPictureToStorage
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.post_details_fragment.*
@@ -43,37 +39,20 @@ class PostDetailsFragment : Fragment(R.layout.post_details_fragment) {
         post = arguments?.getParcelable(POST_ARG_KEY)!!
     }
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val binding = PostDetailsFragmentBinding.inflate(
+            inflater, container, false
+        )
+        binding.postItem = post
+        return binding.root
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        subreddit.text = post.subreddit_name_prefixed
-        created_time_hours.text = getString(
-            R.string.created_hours_ago,
-            Utils.calculateCreatedTimeHours(post.created_utc).toString()
-        )
-        author.text = post.author
-
-        title.text = post.title
-
-        comments_number?.text = getString(
-            R.string.comments_count,
-            post.num_comments.toString()
-        )
-
-        upvotes_number?.text = getString(
-            R.string.upvotes_count,
-            post.ups.toString()
-        )
-
-        val circularProgress = CircularProgressDrawable(requireContext())
-        circularProgress.strokeWidth = 20f
-        circularProgress.centerRadius = 100f
-        circularProgress.start()
-
-        Glide.with(view.context)
-            .load(post.url)
-            .placeholder(circularProgress)
-            .error(R.drawable.ic_image_not_supported_black)
-            .into(preview_image)
 
         registerForContextMenu(preview_image)
     }

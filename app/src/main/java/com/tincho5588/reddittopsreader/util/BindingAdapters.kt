@@ -5,6 +5,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.tincho5588.reddittopsreader.R
 
@@ -12,6 +13,20 @@ import com.tincho5588.reddittopsreader.R
 fun imageUrl(view: ImageView, url: String) {
     Glide.with(view.context)
         .load(url)
+        .error(R.drawable.ic_image_not_supported_black)
+        .into(view)
+}
+
+@BindingAdapter("app:imageUrlWithLoadingPlaceholder")
+fun imageUrlWithLoadingPlaceholder(view: ImageView, url: String) {
+    val circularProgress = CircularProgressDrawable(view.context)
+    circularProgress.strokeWidth = 20f
+    circularProgress.centerRadius = 100f
+    circularProgress.start()
+
+    Glide.with(view.context)
+        .load(url)
+        .placeholder(circularProgress)
         .error(R.drawable.ic_image_not_supported_black)
         .into(view)
 }
