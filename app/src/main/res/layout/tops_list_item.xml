@@ -1,112 +1,134 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="@dimen/margin_small">
-    
-    <androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="postItem"
+            type="com.tincho5588.reddittopsreader.data.model.Post" />
+
+        <variable
+            name="postItemClickListener"
+            type="android.view.View.OnClickListener" />
+    </data>
+
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_small"
+        android:onClick="@{(v) -> postItemClickListener.onClick(v)}">
 
-        <ImageView
-            android:id="@+id/preview_image"
-            android:layout_width="@dimen/preview_image_thumbnail_size"
-            android:layout_height="@dimen/preview_image_thumbnail_size"
-            android:layout_margin="@dimen/margin_xsmall"
-            app:layout_constraintBottom_toTopOf="@+id/new_icon"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/author" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/subreddit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/text_size_xsmall"
-            android:layout_margin="@dimen/margin_xsmall"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="r/subreddit"/>
+            <ImageView
+                android:id="@+id/preview_image"
+                android:layout_width="@dimen/preview_image_thumbnail_size"
+                android:layout_height="@dimen/preview_image_thumbnail_size"
+                android:layout_margin="@dimen/margin_xsmall"
+                app:imageUrl="@{postItem.thumbnail}"
+                app:layout_constraintBottom_toTopOf="@+id/new_icon"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/author" />
 
-        <TextView
-            android:id="@+id/first_bullet"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_xsmall"
-            android:textSize="@dimen/text_size_xsmall"
-            android:textAlignment="center"
-            android:text="@string/separator_bullet"
-            app:layout_constraintStart_toEndOf="@id/subreddit"
-            app:layout_constraintTop_toTopOf="parent"/>
+            <TextView
+                android:id="@+id/subreddit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_xsmall"
+                android:text="@{postItem.subreddit_name_prefixed}"
+                android:textSize="@dimen/text_size_xsmall"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="r/subreddit" />
 
-        <TextView
-            android:id="@+id/created_time_hours"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:layout_margin="@dimen/margin_xsmall"
-            android:textSize="@dimen/text_size_xsmall"
-            tools:text="10 hrs ago"
-            app:layout_constraintStart_toEndOf="@id/first_bullet"
-            app:layout_constraintTop_toTopOf="parent" />
+            <TextView
+                android:id="@+id/first_bullet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_xsmall"
+                android:text="@string/separator_bullet"
+                android:textAlignment="center"
+                android:textSize="@dimen/text_size_xsmall"
+                app:layout_constraintStart_toEndOf="@id/subreddit"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/author"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:layout_margin="@dimen/margin_xsmall"
-            android:textSize="@dimen/text_size_xsmall"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="u/some_cool_author" />
+            <TextView
+                android:id="@+id/created_time_hours"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_xsmall"
+                android:textAlignment="center"
+                android:textSize="@dimen/text_size_xsmall"
+                app:createHoursAgo="@{postItem.created_utc}"
+                app:layout_constraintStart_toEndOf="@id/first_bullet"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="10 hrs ago" />
 
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_xsmall"
-            app:layout_constraintEnd_toStartOf="@+id/preview_image"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/subreddit"
-            tools:text="some really really really really really really long title" />
+            <TextView
+                android:id="@+id/author"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_xsmall"
+                android:ellipsize="end"
+                android:text="@{@string/user(postItem.author)}"
+                android:textSize="@dimen/text_size_xsmall"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="u/some_cool_author" />
 
-        <TextView
-            android:id="@+id/comments_number"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/seen_icon_size"
-            android:layout_margin="@dimen/margin_xsmall"
-            android:drawableStart="@drawable/ic_comment_black"
-            android:background="@drawable/rounded_corner"
-            android:gravity="center"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/title"
-            app:layout_constraintVertical_bias="1.0"
-            tools:text="1000" />
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_xsmall"
+                android:text="@{postItem.title}"
+                app:layout_constraintEnd_toStartOf="@+id/preview_image"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/subreddit"
+                tools:text="some really really really really really really long title" />
 
-        <TextView
-            android:id="@+id/upvotes_number"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/seen_icon_size"
-            android:layout_margin="@dimen/margin_xsmall"
-            android:drawableStart="@drawable/ic_arrow_upward_black"
-            android:background="@drawable/rounded_corner"
-            android:gravity="center"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/comments_number"
-            app:layout_constraintTop_toBottomOf="@+id/title"
-            app:layout_constraintVertical_bias="1.0"
-            tools:text="10000" />
+            <TextView
+                android:id="@+id/comments_number"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/seen_icon_size"
+                android:layout_margin="@dimen/margin_xsmall"
+                android:background="@drawable/rounded_corner"
+                android:drawableStart="@drawable/ic_comment_black"
+                android:gravity="center"
+                android:text="@{String.valueOf(postItem.num_comments)}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/title"
+                app:layout_constraintVertical_bias="1.0"
+                tools:text="1000" />
 
-        <ImageView
-            android:id="@+id/new_icon"
-            android:layout_width="@dimen/seen_icon_size"
-            android:layout_height="@dimen/seen_icon_size"
-            android:layout_margin="@dimen/margin_xsmall"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.cardview.widget.CardView>
+            <TextView
+                android:id="@+id/upvotes_number"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/seen_icon_size"
+                android:layout_margin="@dimen/margin_xsmall"
+                android:background="@drawable/rounded_corner"
+                android:drawableStart="@drawable/ic_arrow_upward_black"
+                android:gravity="center"
+                android:text="@{String.valueOf(postItem.ups)}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/comments_number"
+                app:layout_constraintTop_toBottomOf="@+id/title"
+                app:layout_constraintVertical_bias="1.0"
+                tools:text="10000" />
+
+            <ImageView
+                android:id="@+id/new_icon"
+                android:layout_width="@dimen/seen_icon_size"
+                android:layout_height="@dimen/seen_icon_size"
+                android:layout_margin="@dimen/margin_xsmall"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:seen="@{postItem.seen}" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</layout>
