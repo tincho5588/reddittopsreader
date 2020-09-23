@@ -3,20 +3,21 @@ package com.tincho5588.reddittopsreader.ui.topslist
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.tincho5588.reddittopsreader.BR
-import com.tincho5588.reddittopsreader.R
 import com.tincho5588.reddittopsreader.data.model.Post
+import com.tincho5588.reddittopsreader.databinding.TopsListItemBinding
 
-class TopsListAdapter(var posts: List<Post>, val itemClickedCallback: (post: Post) -> Unit) :
+class TopsListAdapter(
+    var posts: List<Post> = emptyList(),
+    val itemClickedCallback: (post: Post) -> Unit
+) :
     RecyclerView.Adapter<TopsListAdapter.PostViewHolder>() {
-    class PostViewHolder(val binding: ViewDataBinding) : RecyclerView.ViewHolder(binding.root) {
+
+    class PostViewHolder(private val binding: TopsListItemBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(post: Post, onClickListener: View.OnClickListener) {
-            binding.setVariable(BR.postItem, post)
-            binding.setVariable(BR.postItemClickListener, onClickListener)
+            binding.postItem = post
+            binding.postItemClickListener = onClickListener
             binding.executePendingBindings()
         }
     }
@@ -25,9 +26,8 @@ class TopsListAdapter(var posts: List<Post>, val itemClickedCallback: (post: Pos
         parent: ViewGroup,
         viewType: Int
     ): PostViewHolder {
-        val binding = DataBindingUtil.inflate<ViewDataBinding>(
+        val binding = TopsListItemBinding.inflate(
             LayoutInflater.from(parent.context),
-            R.layout.tops_list_item,
             parent,
             false
         )
@@ -45,7 +45,9 @@ class TopsListAdapter(var posts: List<Post>, val itemClickedCallback: (post: Pos
     override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
         val item = getItem(position)
 
-        holder.bind(item, View.OnClickListener { itemClickedCallback(item) })
+        holder.bind(item) {
+            itemClickedCallback(item)
+        }
     }
 
     fun updateDataset(newData: List<Post>) {

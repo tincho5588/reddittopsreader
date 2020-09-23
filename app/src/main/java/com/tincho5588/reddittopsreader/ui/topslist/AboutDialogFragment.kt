@@ -7,9 +7,12 @@ import androidx.fragment.app.DialogFragment
 import com.tincho5588.reddittopsreader.R
 
 class AboutDialogFragment : DialogFragment() {
+    companion object {
+        const val ABOUT_DIALOG_FRAGMENT_TAG = "ABOUT_DIALOG_FRAGMENT"
+    }
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return activity?.let { activity ->
-            // Use the Builder class for convenient dialog construction
             val builder = AlertDialog.Builder(activity)
             builder.setMessage(R.string.about_message)
                 .setNegativeButton(

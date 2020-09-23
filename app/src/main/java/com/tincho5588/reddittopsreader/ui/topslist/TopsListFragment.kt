@@ -2,18 +2,21 @@ package com.tincho5588.reddittopsreader.ui.topslist
 
 import android.content.Context
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
-import android.view.View
+import android.view.*
 import android.widget.Toast
+import androidx.databinding.BindingAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.mikepenz.itemanimators.SlideRightAlphaAnimator
 import com.tincho5588.reddittopsreader.R
+import com.tincho5588.reddittopsreader.data.model.Post
+import com.tincho5588.reddittopsreader.databinding.TopsListItemBinding
+import com.tincho5588.reddittopsreader.ui.topslist.AboutDialogFragment.Companion.ABOUT_DIALOG_FRAGMENT_TAG
 import com.tincho5588.reddittopsreader.util.Utils.isNetworkAvailable
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.tops_list_fragment.*
@@ -38,16 +41,20 @@ class TopsListFragment : Fragment(R.layout.tops_list_fragment) {
     private lateinit var postClickedListener: PostClickedListener
     private lateinit var recyclerViewLayoutManager: LinearLayoutManager
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        postClickedListener = context as PostClickedListener
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
 
-        if (savedInstanceState == null) Toast.makeText(requireContext(), R.string.dismiss_hint, Toast.LENGTH_SHORT).show()
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        postClickedListener = context as PostClickedListener
+        if (savedInstanceState == null) Toast.makeText(
+            requireContext(),
+            R.string.dismiss_hint,
+            Toast.LENGTH_SHORT
+        ).show()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -64,22 +71,32 @@ class TopsListFragment : Fragment(R.layout.tops_list_fragment) {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.dismiss_all -> viewModel.dismissAll()
-            R.id.about -> AboutDialogFragment().show(childFragmentManager, "ABOUT_DIALOG_FRAGMENT")
+            R.id.about -> AboutDialogFragment().show(
+                childFragmentManager,
+                ABOUT_DIALOG_FRAGMENT_TAG
+            )
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putParcelable(
+            LAYOUT_MANAGER_STATE_KEY,
+            recyclerViewLayoutManager.onSaveInstanceState()
+        )
     }
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
 
-        savedInstanceState?.let {
-            recyclerViewLayoutManager.onRestoreInstanceState(savedInstanceState.getParcelable(LAYOUT_MANAGER_STATE_KEY))
+        savedInstanceState?.let { savedState ->
+            recyclerViewLayoutManager.onRestoreInstanceState(
+                savedState.getParcelable(
+                    LAYOUT_MANAGER_STATE_KEY
+                )
+            )
         }
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putParcelable(LAYOUT_MANAGER_STATE_KEY, recyclerViewLayoutManager.onSaveInstanceState())
     }
 
     private fun setupAdapter() {
@@ -106,8 +123,8 @@ class TopsListFragment : Fragment(R.layout.tops_list_fragment) {
         val swipeToDeleteCallback = SwipeToDeleteCallback(requireContext()) { position ->
             viewModel.dismiss(viewAdapter.getItem(position))
         }
-        val itemTouchHelper = ItemTouchHelper(swipeToDeleteCallback)
-        itemTouchHelper.attachToRecyclerView(tops_list_recycler_view)
+        ItemTouchHelper(swipeToDeleteCallback)
+            .attachToRecyclerView(tops_list_recycler_view)
     }
 
     private fun startObservingData() {
