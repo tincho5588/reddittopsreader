@@ -2,20 +2,18 @@ package com.tincho5588.reddittopsreader.ui.topslist
 
 import android.content.Context
 import android.os.Bundle
-import android.view.*
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
-import androidx.databinding.BindingAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.mikepenz.itemanimators.SlideRightAlphaAnimator
 import com.tincho5588.reddittopsreader.R
-import com.tincho5588.reddittopsreader.data.model.Post
-import com.tincho5588.reddittopsreader.databinding.TopsListItemBinding
 import com.tincho5588.reddittopsreader.ui.topslist.AboutDialogFragment.Companion.ABOUT_DIALOG_FRAGMENT_TAG
 import com.tincho5588.reddittopsreader.util.Utils.isNetworkAvailable
 import dagger.hilt.android.AndroidEntryPoint
