@@ -1,13 +1,12 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
-    ext.kotlin_version = "1.4.0"
     repositories {
         google()
         jcenter()
     }
     dependencies {
         classpath("com.android.tools.build:gradle:4.0.1")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.0")
         classpath("com.google.dagger:hilt-android-gradle-plugin:2.29.1-alpha")
 
         // NOTE: Do not place your application dependencies here; they belong
@@ -22,19 +21,6 @@ allprojects {
     }
 }
 
-task clean(type: Delete) {
+tasks.register("clean", Delete::class) {
     delete(rootProject.buildDir)
-}
-
-ext {
-    retrofit_version = "2.9.0"
-    dagger_version = "2.28.3"
-    dagger_android_version = "2.15"
-    hilt_version = "2.29.1-alpha"
-    hilt_viewmodel_version = "1.0.0-alpha02"
-    room_version = "2.2.5"
-    glide_version = "4.11.0"
-    robolectric_version = "4.4"
-    mockito_version = "3.5.11"
-    coroutines_version = "1.3.9"
 }
