@@ -25,6 +25,8 @@ class MainActivity : FragmentActivity(R.layout.activity_main),
         // and re-attach the fragment when the activity gets recreated on rotation
         if (savedInstanceState == null) {
             displayPostsListFragment()
+        } else if (savedInstanceState.containsKey(POST_ARG_KEY)) {
+            displayPostDetailsFragment(savedInstanceState.getString(POST_ARG_KEY)!!)
         }
     }
 
@@ -37,10 +39,10 @@ class MainActivity : FragmentActivity(R.layout.activity_main),
     }
 
     override fun onPostItemClicked(post: Post) {
-        displayPostDetailsFragment(post)
+        displayPostDetailsFragment(post.id)
     }
 
-    private fun displayPostDetailsFragment(post: Post) {
+    private fun displayPostDetailsFragment(postId: String) {
         var container = tops_list_fragment_container.id
         post_details_fragment_container?.let { landscapeContainer ->
             container = landscapeContainer.id
@@ -56,7 +58,7 @@ class MainActivity : FragmentActivity(R.layout.activity_main),
             )
             .replace(
                 container,
-                PostDetailsFragment.newInstance(post.id),
+                PostDetailsFragment.newInstance(postId),
                 POST_DETAILS_FRAGMENT_TAG
             )
             .addToBackStack(POST_DETAILS_FRAGMENT_TAG)
