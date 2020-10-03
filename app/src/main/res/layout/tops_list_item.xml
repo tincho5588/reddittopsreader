@@ -7,7 +7,7 @@
 
         <variable
             name="postItem"
-            type="com.tincho5588.reddittopsreader.data.model.Post" />
+            type="com.tincho5588.reddittopsreader.domain.model.post.Post" />
 
         <variable
             name="postItemClickListener"
@@ -127,6 +127,7 @@
                 android:layout_width="@dimen/seen_icon_size"
                 android:layout_height="@dimen/seen_icon_size"
                 android:layout_margin="@dimen/margin_xsmall"
+                android:src="@drawable/ic_new_black"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:seen="@{postItem.seen}" />

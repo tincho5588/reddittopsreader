@@ -1,0 +1,5 @@
+package com.tincho5588.reddittopsreader.data.repository
+
+import com.tincho5588.reddittopsreader.domain.datasource.post.PostsDataSource
+
+interface PostsRepository: PostsDataSource

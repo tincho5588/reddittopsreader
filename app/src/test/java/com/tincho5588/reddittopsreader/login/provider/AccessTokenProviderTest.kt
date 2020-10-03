@@ -3,8 +3,9 @@ package com.tincho5588.reddittopsreader.login.provider
 import android.os.SystemClock
 import androidx.preference.PreferenceManager
 import androidx.test.core.app.ApplicationProvider
-import com.tincho5588.reddittopsreader.login.model.AccessToken
-import com.tincho5588.reddittopsreader.login.retrofit.service.AccessTokenService
+import com.tincho5588.reddittopsreader.data.datasource.remote.login.RemoteLoginDataSourceImpl
+import com.tincho5588.reddittopsreader.data.datasource.remote.login.response.AccessTokenResponse
+import com.tincho5588.reddittopsreader.data.datasource.remote.login.service.AccessTokenService
 import com.tincho5588.reddittopsreader.util.Constants
 import com.tincho5588.reddittopsreader.util.Constants.DEVICE_ID_PREF_KEY
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -30,27 +31,37 @@ class AccessTokenProviderTest {
     /**
      * SUT
      */
-    lateinit var accessTokenProvider: AccessTokenProviderImpl
+    lateinit var accessTokenProvider: RemoteLoginDataSourceImpl
 
     @Mock lateinit var accessTokenService: AccessTokenService
-    @Mock private lateinit var call: Call<AccessToken>
-    @Mock private lateinit var response: Response<AccessToken>
+    @Mock private lateinit var call: Call<AccessTokenResponse>
+    @Mock private lateinit var response: Response<AccessTokenResponse>
 
-    private lateinit var nonExpiredToken: AccessToken
+    private lateinit var nonExpiredToken: AccessTokenResponse
     private lateinit var basicAuthCredentials: String
 
     @Before
     fun setup() {
         MockitoAnnotations.openMocks(this)
-        nonExpiredToken = AccessToken("mock_token","", SystemClock.elapsedRealtime() + 100, "")
+        nonExpiredToken =
+            AccessTokenResponse(
+                "mock_token",
+                "",
+                SystemClock.elapsedRealtime() + 100,
+                ""
+            )
         basicAuthCredentials = Credentials.basic(Constants.REDDIT_APP_ID, "")
-        accessTokenProvider = AccessTokenProviderImpl(ApplicationProvider.getApplicationContext(), accessTokenService)
+        accessTokenProvider =
+            RemoteLoginDataSourceImpl(
+                ApplicationProvider.getApplicationContext(),
+                accessTokenService
+            )
     }
 
     @Test
     fun testInitialTokenIsRetrieved() {
         setupRefreshMocks()
-        val result = accessTokenProvider.token
+        val result = accessTokenProvider.tokenResource
 
         assertEquals(nonExpiredToken.access_token, result)
         verifyTokenRetrievedFromServer()
@@ -59,9 +70,15 @@ class AccessTokenProviderTest {
     @Test
     fun verifyExpiredTokenCausesTokenRetrievalFromServer() {
         setupRefreshMocks()
-        accessTokenProvider.realToken = AccessToken("mock_token","", SystemClock.elapsedRealtime() - 100, "")
+        accessTokenProvider.tokenResource =
+            AccessTokenResponse(
+                "mock_token",
+                "",
+                SystemClock.elapsedRealtime() - 100,
+                ""
+            )
 
-        val result = accessTokenProvider.token
+        val result = accessTokenProvider.tokenResource
 
         assertEquals(nonExpiredToken.access_token, result)
         verifyTokenRetrievedFromServer()
@@ -69,9 +86,9 @@ class AccessTokenProviderTest {
 
     @Test
     fun testExitingTokenIsReturnedIfNotExpired() {
-        accessTokenProvider.realToken = nonExpiredToken
+        accessTokenProvider.tokenResource = nonExpiredToken
 
-        assertEquals(nonExpiredToken.access_token, accessTokenProvider.token)
+        assertEquals(nonExpiredToken.access_token, accessTokenProvider.tokenResource)
         verifyTokenNotRetrievedFromServer()
     }
 

@@ -6,7 +6,7 @@
 
         <variable
             name="postItem"
-            type="com.tincho5588.reddittopsreader.data.model.Post" />
+            type="com.tincho5588.reddittopsreader.domain.model.post.Post" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"

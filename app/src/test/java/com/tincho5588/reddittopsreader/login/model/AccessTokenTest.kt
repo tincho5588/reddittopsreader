@@ -1,6 +1,7 @@
 package com.tincho5588.reddittopsreader.login.model
 
 import android.os.SystemClock
+import com.tincho5588.reddittopsreader.data.datasource.remote.login.response.AccessTokenResponse
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.HiltTestApplication
 import junit.framework.Assert
@@ -16,13 +17,25 @@ import org.robolectric.annotation.Config
 class AccessTokenTest {
     @Test
     fun testExpiredToken() {
-        val expiredToken = AccessToken("", "", SystemClock.elapsedRealtime() - 100, "")
+        val expiredToken =
+            AccessTokenResponse(
+                "",
+                "",
+                SystemClock.elapsedRealtime() - 100,
+                ""
+            )
         assertTrue(expiredToken.expired)
     }
 
     @Test
     fun testNonExpiredToken() {
-        val nonExpiredToken = AccessToken("", "", SystemClock.elapsedRealtime() + 100, "")
+        val nonExpiredToken =
+            AccessTokenResponse(
+                "",
+                "",
+                SystemClock.elapsedRealtime() + 100,
+                ""
+            )
         Assert.assertFalse(nonExpiredToken.expired)
     }
 }

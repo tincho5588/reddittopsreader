@@ -93,6 +93,8 @@ dependencies {
     // RecyclerView ItemAnimators
     implementation("com.mikepenz:itemanimators:1.1.0")
 
+    implementation("com.squareup.leakcanary:leakcanary-android:2.5")
+
     // junit
     testImplementation("junit:junit:4.13")
 
