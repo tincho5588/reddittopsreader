@@ -43,7 +43,7 @@ object RetrofitsModule {
         val clientBuilder = OkHttpClient.Builder()
         clientBuilder.addInterceptor(
             InsertHeadersRequestInterceptor(
-                loginManager.getDeviceAccessToken()
+                loginManager
             )
         )
             .connectTimeout(30, TimeUnit.SECONDS)

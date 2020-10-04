@@ -22,9 +22,9 @@ class AnonymousLoginUseCase(
         val isSuccess =
             (tokenResponse.status == Status.SUCCESS) && (!(tokenResponse.data?.expired ?: true))
 
-        return Resource(
-            if (isSuccess) Status.SUCCESS else Status.ERROR,
-            tokenResponse.data?.access_token,
+        return if (isSuccess) Resource.success(tokenResponse.data!!.access_token)
+        else Resource.error(
+            "",
             ""
         )
     }

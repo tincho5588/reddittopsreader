@@ -20,30 +20,26 @@ data class ChildrenApiResponse(
     val data: PostApiResponse
 )
 
-data class PostApiResponse(
-    val id: String,
-    val title: String,
-    val thumbnail: String,
-    val author: String,
-    val num_comments: Int,
-    val created_utc: Long,
-    val ups: Int,
-    val subreddit_name_prefixed: String,
-    val url: String
-) {
-    fun toPost(): Post {
-        return Post(
-            id,
-            title,
-            thumbnail,
-            author,
-            num_comments,
-            created_utc,
-            ups,
-            subreddit_name_prefixed,
-            url,
-            false,
-            false
-        )
-    }
-}
+class PostApiResponse(
+    id: String,
+    title: String,
+    thumbnail: String,
+    author: String,
+    num_comments: Int,
+    created_utc: Long,
+    ups: Int,
+    subreddit_name_prefixed: String,
+    url: String
+): Post(
+    id,
+    title,
+    thumbnail,
+    author,
+    num_comments,
+    created_utc,
+    ups,
+    subreddit_name_prefixed,
+    url,
+    false,
+    false
+)

@@ -2,15 +2,15 @@ package com.tincho5588.reddittopsreader.domain.model.login
 
 import android.os.SystemClock
 
-data class AccessToken(
+open class AccessToken(
     val access_token: String,
     val token_type: String,
     val expires_in: Long,
     val scope: String,
-    val retrievedTime: Long
+    var createdTime: Long
 ) {
     val expired: Boolean
         get() {
-            return (retrievedTime + expires_in) <= SystemClock.elapsedRealtime()
+            return ((SystemClock.elapsedRealtime() / 1000) - createdTime) >= expires_in
         }
 }

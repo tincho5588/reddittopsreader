@@ -94,7 +94,7 @@ class RemotePostsDataSourceImpl(
     private fun unwrapResponse(response: TopsListApiResponse): List<Post> {
         val retrievedPosts = ArrayList<Post>()
         response.data.children.forEach { postResponse ->
-            retrievedPosts.add(postResponse.data.toPost())
+            retrievedPosts.add(postResponse.data)
         }
         return retrievedPosts
     }

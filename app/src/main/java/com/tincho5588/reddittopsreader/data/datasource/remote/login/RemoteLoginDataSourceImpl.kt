@@ -2,6 +2,7 @@ package com.tincho5588.reddittopsreader.data.datasource.remote.login
 
 import android.content.Context
 import android.os.StrictMode
+import android.os.SystemClock
 import androidx.annotation.VisibleForTesting
 import com.tincho5588.reddittopsreader.R
 import com.tincho5588.reddittopsreader.data.datasource.remote.login.service.AccessTokenService
@@ -49,7 +50,9 @@ class RemoteLoginDataSourceImpl(
         val response = call.execute()
         if (response.isSuccessful) {
             val accessTokenResponse = response.body()!!
-            tokenResource = Resource.success(accessTokenResponse.toAccessToken())
+            // Android Bug Workaround: using the SystemClock in a constructor does not work.
+            accessTokenResponse.createdTime = SystemClock.elapsedRealtime() / 1000
+            tokenResource = Resource.success(accessTokenResponse)
         } else {
             tokenResource =
                 Resource.error(context.getString(R.string.failed_login, response.code()), null)
