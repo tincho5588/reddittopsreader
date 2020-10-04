@@ -11,11 +11,11 @@ import com.tincho5588.reddittopsreader.domain.usecase.Resource
  */
 class MarkPostAsSeenUseCase(
     private val postsDataSource: PostsDataSource
-): AsyncUseCase<MarkPostAsSeenUseCase.RequestValues, Void>() {
+) : AsyncUseCase<MarkPostAsSeenUseCase.RequestValues, Void>() {
     override fun executeUseCase(requestValues: RequestValues?): LiveData<Resource<Void>> {
         requestValues!!
         return postsDataSource.markPostAsSeen(requestValues.post)
     }
 
-    class RequestValues(val post: Post): AsyncUseCase.RequestValues
+    class RequestValues(val post: Post) : AsyncUseCase.RequestValues
 }

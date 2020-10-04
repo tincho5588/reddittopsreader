@@ -11,12 +11,12 @@ import com.tincho5588.reddittopsreader.domain.usecase.Resource
  */
 class GetPostDetailsUseCase(
     private val postsDataSource: PostsDataSource
-): AsyncUseCase<GetPostDetailsUseCase.RequestValues, Post>() {
+) : AsyncUseCase<GetPostDetailsUseCase.RequestValues, Post>() {
 
     override fun executeUseCase(requestValues: RequestValues?): LiveData<Resource<Post>> {
         requestValues!!
         return postsDataSource.getPost(requestValues.id)
     }
 
-    class RequestValues(val id: String): AsyncUseCase.RequestValues
+    class RequestValues(val id: String) : AsyncUseCase.RequestValues
 }

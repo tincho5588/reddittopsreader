@@ -10,7 +10,7 @@ import com.tincho5588.reddittopsreader.presentation.viewmodel.PostsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SplashScreenActivity: AppCompatActivity(R.layout.splash_screen) {
+class SplashScreenActivity : AppCompatActivity(R.layout.splash_screen) {
     private val viewModel: PostsViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {

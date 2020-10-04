@@ -1,4 +1,4 @@
-package com.tincho5588.reddittopsreader.presentation.fragment
+package com.tincho5588.reddittopsreader.presentation.fragment.TopsList
 
 import com.tincho5588.reddittopsreader.domain.model.post.Post
 

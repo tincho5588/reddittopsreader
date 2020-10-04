@@ -1,4 +1,4 @@
-package com.tincho5588.reddittopsreader.presentation.fragment
+package com.tincho5588.reddittopsreader.presentation.fragment.TopsList
 
 import android.app.AlertDialog
 import android.app.Dialog

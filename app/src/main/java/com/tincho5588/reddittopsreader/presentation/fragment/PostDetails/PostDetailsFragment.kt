@@ -1,4 +1,4 @@
-package com.tincho5588.reddittopsreader.presentation.fragment
+package com.tincho5588.reddittopsreader.presentation.fragment.PostDetails
 
 import android.Manifest
 import android.content.pm.PackageManager

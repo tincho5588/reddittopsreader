@@ -3,6 +3,7 @@ package com.tincho5588.reddittopsreader.data.datasource.local
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.tincho5588.reddittopsreader.data.datasource.local.dao.PostDao
+import com.tincho5588.reddittopsreader.data.datasource.local.entity.PostRoomEntity
 import com.tincho5588.reddittopsreader.domain.model.post.Post
 import com.tincho5588.reddittopsreader.domain.usecase.Resource
 import kotlinx.coroutines.CoroutineDispatcher
@@ -13,7 +14,7 @@ import kotlinx.coroutines.launch
 class LocalPostsDataSourceImpl(
     val postsDao: PostDao,
     val dispatcher: CoroutineDispatcher = Dispatchers.Main
-): LocalPostsDataSource {
+) : LocalPostsDataSource {
     override fun getNonDismissedTopPosts(
         amount: Int
     ): LiveData<Resource<List<Post>>> {
@@ -49,7 +50,6 @@ class LocalPostsDataSourceImpl(
             ret.value = Resource.loading(null)
         }
 
-        // ToDo: this is on the main thread
         GlobalScope.launch(dispatcher) {
             postsDao.dismiss(post.id)
             ret.value = Resource.success(null)
@@ -70,8 +70,13 @@ class LocalPostsDataSourceImpl(
     }
 
     override fun save(posts: List<Post>) {
+        val out: MutableList<PostRoomEntity> = ArrayList()
+        posts.forEach { post ->
+            out.add(PostRoomEntity.fromPost(post))
+        }
+
         GlobalScope.launch(dispatcher) {
-            postsDao.save(posts)
+            postsDao.save(out)
         }
     }
 }

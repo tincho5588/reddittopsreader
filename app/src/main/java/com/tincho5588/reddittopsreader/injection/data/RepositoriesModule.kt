@@ -18,7 +18,10 @@ import javax.inject.Singleton
 object RepositoriesModule {
     @Provides
     @Singleton
-    fun providePostsRepository(localPostsDataSource: LocalPostsDataSource, remotePostsDataSource: RemotePostsDataSource): PostsRepository {
+    fun providePostsRepository(
+        localPostsDataSource: LocalPostsDataSource,
+        remotePostsDataSource: RemotePostsDataSource
+    ): PostsRepository {
         return PostsRepositoryImpl(localPostsDataSource, remotePostsDataSource)
     }
 

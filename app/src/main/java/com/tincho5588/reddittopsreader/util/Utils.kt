@@ -11,7 +11,6 @@ import android.os.Environment
 import android.provider.MediaStore
 import android.widget.Toast
 import com.tincho5588.reddittopsreader.R
-import java.io.File
 import java.io.IOException
 import java.io.OutputStream
 
@@ -45,7 +44,8 @@ object Utils {
                 }
             }
 
-            uri = contentResolver.insert(contentUri, contentValues)?: throw IOException("Failed to create new MediaStore record.")
+            uri = contentResolver.insert(contentUri, contentValues)
+                ?: throw IOException("Failed to create new MediaStore record.")
             stream = contentResolver.openOutputStream(uri)
 
             if (!bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)) {
@@ -54,7 +54,7 @@ object Utils {
 
             resultCallback(true)
         } catch (e: IOException) {
-            uri?:contentResolver.delete(uri!!, null, null)
+            uri ?: contentResolver.delete(uri!!, null, null)
 
             resultCallback(false)
         } finally {
@@ -80,6 +80,10 @@ object Utils {
     }
 
     fun showNetworkUnavailableToast(context: Context) {
-        Toast.makeText(context, context.getString(R.string.network_unavailable_message), Toast.LENGTH_SHORT).show()
+        Toast.makeText(
+            context,
+            context.getString(R.string.network_unavailable_message),
+            Toast.LENGTH_SHORT
+        ).show()
     }
 }

@@ -6,7 +6,7 @@ import com.tincho5588.reddittopsreader.domain.usecase.Resource
 
 class LoginRepositoryImpl(
     val remoteLoginDataSource: RemoteLoginDataSource
-): LoginRepository {
+) : LoginRepository {
     override fun getDeviceAccessToken(deviceId: String): Resource<AccessToken> {
         return remoteLoginDataSource.getDeviceAccessToken(deviceId)
     }

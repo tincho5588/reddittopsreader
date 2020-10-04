@@ -1,4 +1,4 @@
-package com.tincho5588.reddittopsreader.presentation.fragment
+package com.tincho5588.reddittopsreader.presentation.fragment.TopsList
 
 import android.content.Context
 import android.os.Bundle
@@ -6,7 +6,7 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
+import android.widget.Toast.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.observe
@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.mikepenz.itemanimators.SlideRightAlphaAnimator
 import com.tincho5588.reddittopsreader.R
 import com.tincho5588.reddittopsreader.domain.usecase.Status
-import com.tincho5588.reddittopsreader.presentation.fragment.AboutDialogFragment.Companion.ABOUT_DIALOG_FRAGMENT_TAG
+import com.tincho5588.reddittopsreader.presentation.fragment.TopsList.AboutDialogFragment.Companion.ABOUT_DIALOG_FRAGMENT_TAG
 import com.tincho5588.reddittopsreader.presentation.viewmodel.PostsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.tops_list_fragment.*
@@ -50,10 +50,10 @@ class TopsListFragment : Fragment(R.layout.tops_list_fragment) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
 
-        if (savedInstanceState == null) Toast.makeText(
+        if (savedInstanceState == null) makeText(
             requireContext(),
             R.string.dismiss_hint,
-            Toast.LENGTH_SHORT
+            LENGTH_SHORT
         ).show()
     }
 
@@ -72,9 +72,9 @@ class TopsListFragment : Fragment(R.layout.tops_list_fragment) {
         when (item.itemId) {
             R.id.about -> AboutDialogFragment()
                 .show(
-                childFragmentManager,
-                ABOUT_DIALOG_FRAGMENT_TAG
-            )
+                    childFragmentManager,
+                    ABOUT_DIALOG_FRAGMENT_TAG
+                )
         }
         return super.onOptionsItemSelected(item)
     }
@@ -102,9 +102,7 @@ class TopsListFragment : Fragment(R.layout.tops_list_fragment) {
     private fun setupAdapter() {
         // RecyclerView Adapter setup
         viewAdapter =
-            TopsListAdapter(
-                emptyList()
-            ) { post ->
+            TopsListAdapter(emptyList()) { post ->
                 viewModel.markPostAsSeen(post)
                 postClickedListener.onPostItemClicked(post)
             }
@@ -124,9 +122,7 @@ class TopsListFragment : Fragment(R.layout.tops_list_fragment) {
 
         // Swipe to dismiss gesture
         val swipeToDeleteCallback =
-            SwipeToDeleteCallback(
-                requireContext()
-            ) { position ->
+            SwipeToDeleteCallback(requireContext()) { position ->
                 viewModel.dismissPost(viewAdapter.getItem(position))
             }
         ItemTouchHelper(swipeToDeleteCallback)
@@ -135,8 +131,12 @@ class TopsListFragment : Fragment(R.layout.tops_list_fragment) {
 
     private fun startObservingData() {
         viewModel.posts.observe(viewLifecycleOwner) { result ->
-            if (result.status != Status.LOADING) {
+            if (result.status == Status.SUCCESS) {
                 viewAdapter.updateDataset(result.data!!)
+            }
+
+            if (result.status == Status.ERROR) {
+                makeText(requireContext(), result.message, LENGTH_LONG).show()
             }
         }
 
@@ -145,6 +145,10 @@ class TopsListFragment : Fragment(R.layout.tops_list_fragment) {
             viewModel.refreshTopPosts().observe(viewLifecycleOwner) { result ->
                 if (result.status != Status.LOADING) {
                     swipe_to_refresh_layout.isRefreshing = false
+                }
+
+                if (result.status == Status.ERROR) {
+                    makeText(requireContext(), result.message, LENGTH_LONG).show()
                 }
             }
         }

@@ -13,7 +13,7 @@ import com.tincho5588.reddittopsreader.domain.usecase.Resource
  */
 class RefreshTopPostsUseCase(
     private val postsDataSource: PostsDataSource
-): AsyncUseCase<AsyncUseCase.RequestValues, Void>() {
+) : AsyncUseCase<AsyncUseCase.RequestValues, Void>() {
     companion object {
         // ToDo: unify this with the GetTopPostsUseCase value
         const val POSTS_TO_SHOW = 50

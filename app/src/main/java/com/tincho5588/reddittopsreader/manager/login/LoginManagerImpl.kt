@@ -11,7 +11,7 @@ import java.util.*
 class LoginManagerImpl(
     val context: Context,
     val anonymousLoginUseCase: SyncUseCase<AnonymousLoginUseCase.RequestValues, String>
-): LoginManager {
+) : LoginManager {
     @VisibleForTesting
     internal val deviceId: String by lazy {
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
@@ -26,7 +26,6 @@ class LoginManagerImpl(
     override fun getDeviceAccessToken(): String {
         anonymousLoginUseCase.requestValues = AnonymousLoginUseCase.RequestValues(deviceId)
 
-        // ToDo: Handle failure cases here
         return anonymousLoginUseCase.run().data ?: ""
     }
 

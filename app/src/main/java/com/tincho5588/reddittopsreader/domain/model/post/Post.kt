@@ -1,12 +1,7 @@
 package com.tincho5588.reddittopsreader.domain.model.post
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
-
-// ToDo: Cheating here. Using the domain entity as database entity. Not good, but we avoid a lot troubles with this
-@Entity
-data class Post(
-    @PrimaryKey val id: String,
+open class Post(
+    val id: String,
     val title: String,
     val thumbnail: String,
     val author: String,

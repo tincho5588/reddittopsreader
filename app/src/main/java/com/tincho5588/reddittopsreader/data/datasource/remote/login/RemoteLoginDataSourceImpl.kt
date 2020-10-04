@@ -3,6 +3,7 @@ package com.tincho5588.reddittopsreader.data.datasource.remote.login
 import android.content.Context
 import android.os.StrictMode
 import androidx.annotation.VisibleForTesting
+import com.tincho5588.reddittopsreader.R
 import com.tincho5588.reddittopsreader.data.datasource.remote.login.service.AccessTokenService
 import com.tincho5588.reddittopsreader.domain.model.login.AccessToken
 import com.tincho5588.reddittopsreader.domain.usecase.Resource
@@ -16,6 +17,7 @@ class RemoteLoginDataSourceImpl(
     private val accessTokenService: AccessTokenService
 ) :
     RemoteLoginDataSource {
+
     init {
         // Allow networking on the main thread
         val policy =
@@ -29,7 +31,8 @@ class RemoteLoginDataSourceImpl(
     override fun getDeviceAccessToken(deviceId: String): Resource<AccessToken> {
         if (!::tokenResource.isInitialized ||
             this.tokenResource.status != SUCCESS ||
-            tokenResource.data?.expired != false) {
+            tokenResource.data?.expired != false
+        ) {
             refreshToken(deviceId)
         }
         return tokenResource
@@ -48,7 +51,8 @@ class RemoteLoginDataSourceImpl(
             val accessTokenResponse = response.body()!!
             tokenResource = Resource.success(accessTokenResponse.toAccessToken())
         } else {
-            tokenResource = Resource.error("Failed to retrieve access token, error code ${response.code()}", null)
+            tokenResource =
+                Resource.error(context.getString(R.string.failed_login, response.code()), null)
         }
     }
 }

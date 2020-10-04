@@ -1,4 +1,4 @@
-package com.tincho5588.reddittopsreader.presentation.fragment
+package com.tincho5588.reddittopsreader.presentation.fragment.TopsList
 
 import android.view.LayoutInflater
 import android.view.View
@@ -14,7 +14,8 @@ class TopsListAdapter(
 ) :
     RecyclerView.Adapter<TopsListAdapter.PostViewHolder>() {
 
-    class PostViewHolder(private val binding: TopsListItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    class PostViewHolder(private val binding: TopsListItemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         fun bind(post: Post, onClickListener: View.OnClickListener) {
             binding.postItem = post
             binding.postItemClickListener = onClickListener

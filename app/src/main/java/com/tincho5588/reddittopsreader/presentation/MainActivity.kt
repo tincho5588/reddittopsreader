@@ -4,12 +4,12 @@ import android.os.Bundle
 import androidx.fragment.app.FragmentActivity
 import com.tincho5588.reddittopsreader.R
 import com.tincho5588.reddittopsreader.domain.model.post.Post
-import com.tincho5588.reddittopsreader.presentation.fragment.PostClickedListener
-import com.tincho5588.reddittopsreader.presentation.fragment.PostDetailsFragment
-import com.tincho5588.reddittopsreader.presentation.fragment.PostDetailsFragment.Companion.POST_ARG_KEY
-import com.tincho5588.reddittopsreader.presentation.fragment.PostDetailsFragment.Companion.POST_DETAILS_FRAGMENT_TAG
-import com.tincho5588.reddittopsreader.presentation.fragment.TopsListFragment
-import com.tincho5588.reddittopsreader.presentation.fragment.TopsListFragment.Companion.TOPS_LIST_FRAGMENT_TAG
+import com.tincho5588.reddittopsreader.presentation.fragment.PostDetails.PostDetailsFragment
+import com.tincho5588.reddittopsreader.presentation.fragment.PostDetails.PostDetailsFragment.Companion.POST_ARG_KEY
+import com.tincho5588.reddittopsreader.presentation.fragment.PostDetails.PostDetailsFragment.Companion.POST_DETAILS_FRAGMENT_TAG
+import com.tincho5588.reddittopsreader.presentation.fragment.TopsList.PostClickedListener
+import com.tincho5588.reddittopsreader.presentation.fragment.TopsList.TopsListFragment
+import com.tincho5588.reddittopsreader.presentation.fragment.TopsList.TopsListFragment.Companion.TOPS_LIST_FRAGMENT_TAG
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -31,7 +31,8 @@ class MainActivity : FragmentActivity(R.layout.activity_main),
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        val detailsFragment = supportFragmentManager.findFragmentByTag(POST_DETAILS_FRAGMENT_TAG) as PostDetailsFragment?
+        val detailsFragment =
+            supportFragmentManager.findFragmentByTag(POST_DETAILS_FRAGMENT_TAG) as PostDetailsFragment?
         detailsFragment?.let {
             outState.putString(POST_ARG_KEY, detailsFragment.postId)
         }

@@ -11,7 +11,7 @@ import com.tincho5588.reddittopsreader.domain.usecase.SyncUseCase
  */
 class AnonymousLoginUseCase(
     val loginDataSource: LoginDataSource
-): SyncUseCase<AnonymousLoginUseCase.RequestValues, String>() {
+) : SyncUseCase<AnonymousLoginUseCase.RequestValues, String>() {
 
     override fun executeUseCase(requestValues: RequestValues?): Resource<String> {
         requestValues!!
@@ -19,10 +19,15 @@ class AnonymousLoginUseCase(
 
         // Assert the response from the datasource is SUCCESS, that the token is not null, and that it is not
         // expired.
-        val isSuccess = (tokenResponse.status == Status.SUCCESS) && (!(tokenResponse.data?.expired ?: true))
+        val isSuccess =
+            (tokenResponse.status == Status.SUCCESS) && (!(tokenResponse.data?.expired ?: true))
 
-        return Resource(if(isSuccess) Status.SUCCESS else Status.ERROR, tokenResponse.data?.access_token, "")
+        return Resource(
+            if (isSuccess) Status.SUCCESS else Status.ERROR,
+            tokenResponse.data?.access_token,
+            ""
+        )
     }
 
-    class RequestValues(val deviceId: String): SyncUseCase.RequestValues
+    class RequestValues(val deviceId: String) : SyncUseCase.RequestValues
 }

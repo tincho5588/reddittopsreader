@@ -15,8 +15,8 @@ object RetrofitServicesModule {
     @Provides
     fun provideTopsService(@Named("DataApi") retrofit: Retrofit): TopsService {
         return retrofit.create(
-                TopsService::class.java
-            )
+            TopsService::class.java
+        )
     }
 
     @Provides
