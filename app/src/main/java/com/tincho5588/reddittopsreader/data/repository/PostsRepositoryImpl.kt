@@ -31,7 +31,7 @@ class PostsRepositoryImpl(
         val ret = MutableLiveData<Resource<Void>>(Resource.loading(null))
 
         remotePostsDataSource.getNonDismissedTopPosts(amount).observeForever { resource ->
-            ret.value = Resource(resource.status, null, resource.message)
+            ret.value = Resource(resource.status, null, resource.message, resource.httpResponseCode)
 
             if (resource.status == Status.SUCCESS) {
                 localPostsDataSource.save(resource.data!!)

@@ -23,6 +23,7 @@ class LoginManagerImpl(
         uuid
     }
 
+    // ToDo: handle errors here
     override fun getDeviceAccessToken(): String {
         anonymousLoginUseCase.requestValues = AnonymousLoginUseCase.RequestValues(deviceId)
 

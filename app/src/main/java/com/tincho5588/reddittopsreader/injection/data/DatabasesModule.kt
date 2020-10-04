@@ -16,10 +16,9 @@ object DatabasesModule {
     @Provides
     @Singleton
     fun providePostsDatabase(@ApplicationContext context: Context): PostsDatabase {
-        return Room.databaseBuilder(
+        return Room.inMemoryDatabaseBuilder(
             context.applicationContext,
-            PostsDatabase::class.java,
-            "reddit_database"
+            PostsDatabase::class.java
         ).build()
     }
 }

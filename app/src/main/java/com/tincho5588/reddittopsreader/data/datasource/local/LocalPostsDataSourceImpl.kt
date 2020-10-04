@@ -31,7 +31,7 @@ class LocalPostsDataSourceImpl(
     }
 
     override fun refreshTopPosts(amount: Int): LiveData<Resource<Void>> {
-        return MutableLiveData(Resource.error("Not supported on non-repository datasources", null))
+        return MutableLiveData(Resource.error("Not supported on non-repository datasources", 405, null))
     }
 
     override fun getPost(id: String): LiveData<Resource<Post>> {

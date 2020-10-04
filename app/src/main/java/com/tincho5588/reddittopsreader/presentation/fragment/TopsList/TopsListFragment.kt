@@ -6,7 +6,8 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toast.*
+import android.widget.Toast.LENGTH_SHORT
+import android.widget.Toast.makeText
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.observe
@@ -130,13 +131,9 @@ class TopsListFragment : Fragment(R.layout.tops_list_fragment) {
     }
 
     private fun startObservingData() {
-        viewModel.posts.observe(viewLifecycleOwner) { result ->
+        viewModel.getTopPosts().observe(viewLifecycleOwner) { result ->
             if (result.status == Status.SUCCESS) {
                 viewAdapter.updateDataset(result.data!!)
-            }
-
-            if (result.status == Status.ERROR) {
-                makeText(requireContext(), result.message, LENGTH_LONG).show()
             }
         }
 
@@ -145,10 +142,6 @@ class TopsListFragment : Fragment(R.layout.tops_list_fragment) {
             viewModel.refreshTopPosts().observe(viewLifecycleOwner) { result ->
                 if (result.status != Status.LOADING) {
                     swipe_to_refresh_layout.isRefreshing = false
-                }
-
-                if (result.status == Status.ERROR) {
-                    makeText(requireContext(), result.message, LENGTH_LONG).show()
                 }
             }
         }

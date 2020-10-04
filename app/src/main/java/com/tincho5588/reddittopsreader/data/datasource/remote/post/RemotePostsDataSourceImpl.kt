@@ -1,20 +1,16 @@
 package com.tincho5588.reddittopsreader.data.datasource.remote.post
 
-import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.tincho5588.reddittopsreader.R
 import com.tincho5588.reddittopsreader.data.datasource.remote.post.response.TopsListApiResponse
 import com.tincho5588.reddittopsreader.data.datasource.remote.post.service.TopsService
 import com.tincho5588.reddittopsreader.domain.model.post.Post
 import com.tincho5588.reddittopsreader.domain.usecase.Resource
-import com.tincho5588.reddittopsreader.util.Utils
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class RemotePostsDataSourceImpl(
-    val context: Context,
     val topsService: TopsService
 ) : RemotePostsDataSource {
 
@@ -26,16 +22,15 @@ class RemotePostsDataSourceImpl(
             ret.value = Resource.loading(emptyList())
         }
 
-        if (!Utils.isNetworkAvailable(context)) {
-            ret.value =
-                Resource.error(context.getString(R.string.network_unavailable_message), emptyList())
-        }
-
         val call = topsService.getTops(amount)
         call.enqueue(object : Callback<TopsListApiResponse> {
             override fun onFailure(call: Call<TopsListApiResponse>, t: Throwable) {
                 ret.value =
-                    Resource.error(context.getString(R.string.failed_to_retrieve), emptyList())
+                    Resource.error(
+                        "Failed to generate request to retrieve posts",
+                        0,
+                        emptyList()
+                    )
             }
 
             override fun onResponse(
@@ -46,7 +41,8 @@ class RemotePostsDataSourceImpl(
                     ret.value = Resource.success(unwrapResponse(response.body()!!))
                 else
                     ret.value = Resource.error(
-                        context.getString(R.string.failed_to_retrieve_errorcode),
+                        "Failed to retrieve posts from remote",
+                        response.code(),
                         emptyList()
                     )
             }
@@ -59,6 +55,7 @@ class RemotePostsDataSourceImpl(
         return MutableLiveData<Resource<Void>>(
             Resource.error(
                 "Not supported on non-repository datasources",
+                405,
                 null
             )
         )
@@ -68,6 +65,7 @@ class RemotePostsDataSourceImpl(
         return MutableLiveData<Resource<Post>>(
             Resource.error(
                 "Operation not supported on Remote DataSource",
+                405,
                 null
             )
         )
@@ -77,6 +75,7 @@ class RemotePostsDataSourceImpl(
         return MutableLiveData<Resource<Void>>(
             Resource.error(
                 "Operation not supported on Remote DataSource",
+                405,
                 null
             )
         )
@@ -86,6 +85,7 @@ class RemotePostsDataSourceImpl(
         return MutableLiveData<Resource<Void>>(
             Resource.error(
                 "Operation not supported on Remote DataSource",
+                405,
                 null
             )
         )

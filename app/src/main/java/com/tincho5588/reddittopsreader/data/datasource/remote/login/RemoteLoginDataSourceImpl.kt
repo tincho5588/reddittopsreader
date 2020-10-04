@@ -1,10 +1,8 @@
 package com.tincho5588.reddittopsreader.data.datasource.remote.login
 
-import android.content.Context
 import android.os.StrictMode
 import android.os.SystemClock
 import androidx.annotation.VisibleForTesting
-import com.tincho5588.reddittopsreader.R
 import com.tincho5588.reddittopsreader.data.datasource.remote.login.service.AccessTokenService
 import com.tincho5588.reddittopsreader.domain.model.login.AccessToken
 import com.tincho5588.reddittopsreader.domain.usecase.Resource
@@ -14,7 +12,6 @@ import com.tincho5588.reddittopsreader.util.Constants.REDDIT_GRANT_TYPE
 import okhttp3.Credentials
 
 class RemoteLoginDataSourceImpl(
-    private val context: Context,
     private val accessTokenService: AccessTokenService
 ) :
     RemoteLoginDataSource {
@@ -55,7 +52,7 @@ class RemoteLoginDataSourceImpl(
             tokenResource = Resource.success(accessTokenResponse)
         } else {
             tokenResource =
-                Resource.error(context.getString(R.string.failed_login, response.code()), null)
+                Resource.error("Failed to retrieve access token from remote", response.code(), null)
         }
     }
 }

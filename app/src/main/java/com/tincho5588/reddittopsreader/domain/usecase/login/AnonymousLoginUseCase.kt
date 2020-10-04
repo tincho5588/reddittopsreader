@@ -25,6 +25,7 @@ class AnonymousLoginUseCase(
         return if (isSuccess) Resource.success(tokenResponse.data!!.access_token)
         else Resource.error(
             "",
+            0,
             ""
         )
     }

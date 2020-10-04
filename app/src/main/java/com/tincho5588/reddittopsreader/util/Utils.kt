@@ -3,14 +3,10 @@ package com.tincho5588.reddittopsreader.util
 import android.content.ContentValues
 import android.content.Context
 import android.graphics.Bitmap
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
-import android.widget.Toast
-import com.tincho5588.reddittopsreader.R
 import java.io.IOException
 import java.io.OutputStream
 
@@ -60,30 +56,5 @@ object Utils {
         } finally {
             stream?.close()
         }
-    }
-
-    fun isNetworkAvailable(context: Context): Boolean {
-        val connectivityManager = context
-            .getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-
-        val activeNetwork = connectivityManager.activeNetwork ?: return false
-
-        val networkCapabilities =
-            connectivityManager.getNetworkCapabilities(activeNetwork) ?: return false
-
-        return when {
-            networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
-            networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
-            networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
-            else -> false
-        }
-    }
-
-    fun showNetworkUnavailableToast(context: Context) {
-        Toast.makeText(
-            context,
-            context.getString(R.string.network_unavailable_message),
-            Toast.LENGTH_SHORT
-        ).show()
     }
 }
